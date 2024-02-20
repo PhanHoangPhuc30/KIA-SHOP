@@ -10,13 +10,10 @@
             <file>file:/D:/Documents/NetBeansProjects/Project_KiaShop/src/java/context/DBContext.java</file>
         </group>
         <group>
-            <file>file:/C:/Users/MSI%20GTX/OneDrive/Máy%20tính/HỌC%20TẬP/Project_KiaShop/Project_KiaShop/Project_KiaShop/web/Shop.jsp</file>
-            <file>file:/C:/Users/MSI%20GTX/OneDrive/Máy%20tính/HỌC%20TẬP/Project_KiaShop/Project_KiaShop/Project_KiaShop/web/pin.jsp</file>
-            <file>file:/C:/Users/MSI%20GTX/OneDrive/Máy%20tính/HỌC%20TẬP/Project_KiaShop/Project_KiaShop/Project_KiaShop/web/ManagerProduct.jsp</file>
-            <file>file:/C:/Users/MSI%20GTX/OneDrive/Máy%20tính/HỌC%20TẬP/Project_KiaShop/Project_KiaShop/Project_KiaShop/web/confirmpass.jsp</file>
+            <file>file:/C:/Users/MSI%20GTX/OneDrive/Máy%20tính/HỌC%20TẬP/Project_KiaShop/Project_KiaShop/Project_KiaShop/web/Home.jsp</file>
             <file>file:/C:/Users/MSI%20GTX/OneDrive/Máy%20tính/HỌC%20TẬP/Project_KiaShop/Project_KiaShop/Project_KiaShop/web/Login.jsp</file>
-            <file>file:/C:/Users/MSI%20GTX/OneDrive/Máy%20tính/HỌC%20TẬP/Project_KiaShop/Project_KiaShop/Project_KiaShop/src/java/dao/EmailSender.java</file>
             <file>file:/C:/Users/MSI%20GTX/OneDrive/Máy%20tính/HỌC%20TẬP/Project_KiaShop/Project_KiaShop/Project_KiaShop/src/java/dao/DAO.java</file>
+            <file>file:/C:/Users/MSI%20GTX/OneDrive/Máy%20tính/HỌC%20TẬP/Project_KiaShop/Project_KiaShop/Project_KiaShop/src/java/entity/Account.java</file>
             <file>file:/C:/Users/MSI%20GTX/OneDrive/Máy%20tính/HỌC%20TẬP/Project_KiaShop/Project_KiaShop/Project_KiaShop/src/java/control/SignUpControl.java</file>
         </group>
     </open-files>
