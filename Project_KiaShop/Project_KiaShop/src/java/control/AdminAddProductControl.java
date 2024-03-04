@@ -45,23 +45,60 @@ public class AdminAddProductControl extends HttpServlet {
         String price = request.getParameter("price");
         String title = request.getParameter("title");
         String description = request.getParameter("description");
-        String amount = request.getParameter("amount");
         String category = request.getParameter("category");
 
+        String sizevalue1 = request.getParameter("sizevalue1");
+        String quantity1 = request.getParameter("quantity1");
+        String sizevalue2 = request.getParameter("sizevalue2");
+        String quantity2 = request.getParameter("quantity2");
+        String sizevalue3 = request.getParameter("sizevalue3");
+        String quantity3 = request.getParameter("quantity3");
+        String sizevalue4 = request.getParameter("sizevalue4");
+        String quantity4 = request.getParameter("quantity4");
+        String sizevalue5 = request.getParameter("sizevalue5");
+        String quantity5 = request.getParameter("quantity5");
+        String sizevalue6 = request.getParameter("sizevalue6");
+        String quantity6 = request.getParameter("quantity6");
+        String sizevalue7 = request.getParameter("sizevalue7");
+        String quantity7 = request.getParameter("quantity7");
+        String[] sizeValues = {sizevalue1, sizevalue2, sizevalue3, sizevalue4, sizevalue5, sizevalue6, sizevalue7};
+        String[] quantities = {quantity1, quantity2, quantity3, quantity4, quantity5, quantity6, quantity7};
+
+        int totalQuantity = 0;
+        for (String quantity : quantities) {
+            if (quantity != null && !quantity.isEmpty()) {
+                totalQuantity += Integer.parseInt(quantity);
+            }
+        }
         DAO dao = new DAO();
-        if (dao.checkExistProduct(name, image, price, title, description, category, Integer.parseInt(amount)) != null) {
+        if (dao.checkExistProduct(name, image, price, title, description, category, totalQuantity) != null) {
             request.getRequestDispatcher("ManagerControl").forward(request, response);
             return;
         } else {
-            dao.addNewProduct(name, image, price, title, description, category, Integer.parseInt(amount));
+
+            dao.addNewProduct(name, image, price, title, description, category, totalQuantity);
             int pID = dao.getProductIDToAdd();
             dao.addNewSubImage(pID + "", subImage1);
             dao.addNewSubImage(pID + "", subImage2);
             dao.addNewSubImage(pID + "", subImage3);
             dao.addNewSubImage(pID + "", subImage4);
+
+            // Thêm các cặp sizevalue và quantity vào cơ sở dữ liệu
+//            dao.addSizeAndQuantity(pID, Integer.parseInt(sizevalue1), Integer.parseInt(quantity1));
+//            dao.addSizeAndQuantity(pID, Integer.parseInt(sizevalue2), Integer.parseInt(quantity2));
+//            dao.addSizeAndQuantity(pID, Integer.parseInt(sizevalue3), Integer.parseInt(quantity3));
+//            dao.addSizeAndQuantity(pID, Integer.parseInt(sizevalue4), Integer.parseInt(quantity4));
+//            dao.addSizeAndQuantity(pID, Integer.parseInt(sizevalue5), Integer.parseInt(quantity5));
+//            dao.addSizeAndQuantity(pID, Integer.parseInt(sizevalue6), Integer.parseInt(quantity6));
+//            dao.addSizeAndQuantity(pID, Integer.parseInt(sizevalue7), Integer.parseInt(quantity7));
+// Thêm các cặp sizevalue và quantity vào cơ sở dữ liệu nếu đã được nhập
+            for (int i = 0; i < sizeValues.length; i++) {
+                if (!sizeValues[i].isEmpty() && !quantities[i].isEmpty()) {
+                    dao.addSizeAndQuantity(pID, Integer.parseInt(sizeValues[i]), Integer.parseInt(quantities[i]));
+                }
+            }
             request.getRequestDispatcher("ManagerControl").forward(request, response);
         }
-
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

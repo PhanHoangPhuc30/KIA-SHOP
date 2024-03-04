@@ -28,6 +28,13 @@
                 display: block;
                 margin-top: 5px;
             }
+            .form-cancel {
+                text-align: center;
+            }
+
+            .form-cancel button {
+                width: 48%; /* Adjust the width as needed */
+            }
         </style>
         <!-- Favicon  -->
         <link rel="icon" href="img/core-img/favicon2.ico">
@@ -38,13 +45,22 @@
             <p>Be good, Be bad, Be yourself</p>
         </div>
         <div id="logreg-forms">
-            <form action="pin" method="post" class="form-signup" id="formforgot"style="display: block;" >
-                <h1 class="h3 mb-3 font-weight-normal" style="text-align: center"> Confirm Pin</h1>
+            <form action="pin" method="post" class="form-signup" id="formpin"style="display: block;" >
+                <h1 class="h3 mb-3 font-weight-normal" style="text-align: center">Confirm Pin</h1>
                 <input name="pin" type="text" id="pin" class="form-control" placeholder="Pin">
                 <span class="error" id="pin-error"></span>
-                <button class="btn btn-warning btn-block" name="btnpin" id="btnpin" value="Pin" type="submit"> Submit</button>
-            </form>
+                <button class="btn btn-warning btn-block" name="btnpin" id="btnpin" value="Pin" type="submit">Submit</button>
+                <button class="btn btn-warning btn-block" name="resendpin" id="resendpin" value="Resendpin" type="submit">Resend Pin</button>
+                <button id="cancelbtn" name="cancelbtn" type="submit" value="Cancel" class="fas fa-angle-left">Cancel</button>
 
+
+            </form>
+            <form action="pin" method="post" class="form-cancel" id="formcancel"style="display: none;" >
+                <h1 class="h3 mb-3 font-weight-normal" style="text-align: center">Do you want cancel SignUp?</h1>
+                <button class="btn btn-warning " name="btnNo" id="btnNo" value="No" type="submit"> No</button>
+                <button id="backpin" name="backpin" type="submit" value="Back" class="btn btn-warning " >Yes</button>
+
+            </form>
             <br>
 
         </div>
@@ -55,14 +71,31 @@
         <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
         <script>
+            function showConfirmForm() {
+                $("#formpin").show();
+                $("#formcancel").hide();
+            }
+
+            function showCancelForm() {
+                $("#formpin").hide();
+                $("#formcancel").show();
+            }
+            $("#btnNo").click(function (event) {
+                event.preventDefault();
+                showConfirmForm();
+            });
+            $("#cancelbtn").click(function (event) {
+                event.preventDefault(); // Prevent form submission
+                showCancelForm();
+            });
+
+            //nut nhap ma pin
             $(document).ready(function () {
                 $("#btnpin").click(function (event) {
                     event.preventDefault(); // Prevent form submission
                     performAjaxRequestForgot();
                 });
             });
-
-
             function performAjaxRequestForgot() {
                 var pin = $("#pin").val().trim();
                 var hasErrorse = false;
@@ -87,13 +120,21 @@
                     data: {btnpin: "Pin", pin: pin},
                     success: function (response) {
                         if (response === "SUCCESS") {
-                            window.location.href = 'login'; // Change this to the desired URL
+                            Swal.fire({
+                                title: 'Successful Authentication',
+                                text: 'Login to be able to make purchases',
+                                icon: 'success',
+                                confirmButtonText: 'OK'
+                            }).then(() => {
+                                // Redirect to another page after clicking OK
+                                window.location.href = 'login'; // Change this to the desired URL
+                            });
 
                         } else {
                             // Display SweetAlert for failure
                             Swal.fire({
                                 title: 'Wrong Pin',
-                                text: 'Email does not exist, please check your email again.',
+                                text: 'The pin code is wrong, please check the pin code in the email.',
                                 icon: 'error',
                                 confirmButtonText: 'OK'
                             });
@@ -110,6 +151,100 @@
                     }
                 });
             }
+            //nut huy dang ky
+            $(document).ready(function () {
+                $("#backpin").click(function (event) {
+                    event.preventDefault(); // Prevent form submission
+                    performAjaxRequestpin();
+                });
+            });
+            function performAjaxRequestpin() {
+
+                $.ajax({
+                    type: "POST",
+                    url: "pin",
+                    data: {backpin: "Back"},
+                    success: function (response) {
+                        if (response === "SUCCESS") {
+                            Swal.fire({
+                                title: 'Successful',
+                                text: 'Login to be able to make purchases',
+                                icon: 'success',
+                                confirmButtonText: 'OK'
+                            }).then(() => {
+                                // Redirect to another page after clicking OK
+                                window.location.href = 'login'; // Change this to the desired URL
+                            });
+                        } else {
+                            // Display SweetAlert for failure
+                            Swal.fire({
+                                title: 'Cancellation successful',
+                                text: 'You have successfully canceled your account creation',
+                                icon: 'error',
+                                confirmButtonText: 'OK'
+                            }).then(() => {
+                                // Redirect to another page after clicking OK
+                                window.location.href = 'login'; // Change this to the desired URL
+                            });
+                        }
+                    },
+                    error: function () {
+                        // Display SweetAlert for error
+                        Swal.fire({
+                            title: 'System Error',
+                            text: 'The system is failing',
+                            icon: 'error',
+                            confirmButtonText: 'OK'
+                        });
+                    }
+                });
+            }
+
+
+
+
+            $(document).ready(function () {
+                $("#resendpin").click(function (event) {
+                    event.preventDefault(); // Prevent form submission
+                    performAjaxRequestResendPin();
+                });
+            });
+            function performAjaxRequestResendPin() {
+                $.ajax({
+                    type: "POST",
+                    url: "pin",
+                    data: {resendpin: "Resendpin"},
+                    success: function (response) {
+                        if (response === "SUCCESS") {
+                            Swal.fire({
+                                title: 'Resend Pin Successful',
+                                text: 'The pin code has been sent back, please check your email',
+                                icon: 'success',
+                                confirmButtonText: 'OK'
+                            });
+                        } else {
+                            // Display SweetAlert for failure
+                            Swal.fire({
+                                title: 'Resend Pin Fail',
+                                text: 'Pin code sent failed, please check again',
+                                icon: 'error',
+                                confirmButtonText: 'OK'
+                            });
+                        }
+                    },
+                    error: function () {
+                        // Display SweetAlert for error
+                        Swal.fire({
+                            title: 'System Error',
+                            text: 'The system is failing',
+                            icon: 'error',
+                            confirmButtonText: 'OK'
+                        });
+                    }
+                });
+            }
+
+
         </script>
 
     </body>

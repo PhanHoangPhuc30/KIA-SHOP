@@ -10,11 +10,12 @@
             <file>file:/D:/Documents/NetBeansProjects/Project_KiaShop/src/java/context/DBContext.java</file>
         </group>
         <group>
-            <file>file:/C:/Users/MSI%20GTX/OneDrive/Máy%20tính/HỌC%20TẬP/Project_KiaShop/Project_KiaShop/Project_KiaShop/web/Home.jsp</file>
-            <file>file:/C:/Users/MSI%20GTX/OneDrive/Máy%20tính/HỌC%20TẬP/Project_KiaShop/Project_KiaShop/Project_KiaShop/web/Login.jsp</file>
-            <file>file:/C:/Users/MSI%20GTX/OneDrive/Máy%20tính/HỌC%20TẬP/Project_KiaShop/Project_KiaShop/Project_KiaShop/src/java/dao/DAO.java</file>
+            <file>file:/C:/Users/MSI%20GTX/OneDrive/Máy%20tính/HỌC%20TẬP/Project_KiaShop/Project_KiaShop/Project_KiaShop/src/java/control/ProfileControl.java</file>
+            <file>file:/C:/Users/MSI%20GTX/OneDrive/Máy%20tính/HỌC%20TẬP/Project_KiaShop/Project_KiaShop/Project_KiaShop/src/java/control/UpdateProductControl.java</file>
             <file>file:/C:/Users/MSI%20GTX/OneDrive/Máy%20tính/HỌC%20TẬP/Project_KiaShop/Project_KiaShop/Project_KiaShop/src/java/entity/Account.java</file>
+            <file>file:/C:/Users/MSI%20GTX/OneDrive/Máy%20tính/HỌC%20TẬP/Project_KiaShop/Project_KiaShop/Project_KiaShop/src/java/dao/DAO.java</file>
             <file>file:/C:/Users/MSI%20GTX/OneDrive/Máy%20tính/HỌC%20TẬP/Project_KiaShop/Project_KiaShop/Project_KiaShop/src/java/control/SignUpControl.java</file>
+            <file>file:/C:/Users/MSI%20GTX/OneDrive/Máy%20tính/HỌC%20TẬP/Project_KiaShop/Project_KiaShop/Project_KiaShop/src/java/control/ChangePasswordControl.java</file>
         </group>
     </open-files>
 </project-private>

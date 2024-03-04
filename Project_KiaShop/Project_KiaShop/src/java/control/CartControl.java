@@ -38,37 +38,78 @@ public class CartControl extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        HttpSession session = request.getSession(true);
-        String id = request.getParameter("id");
-        String action = request.getParameter("action");
+//        String id = request.getParameter("id");
+//        String action = request.getParameter("action");
+//
+//        if (!(id == null && action == null)) {
+//            if (action != null && action.equalsIgnoreCase("add")) {
+//                if (session.getAttribute("cart") == null) {
+//                    List<Product> lst = new ArrayList<>();
+//                    session.setAttribute("cart", new Cart(lst));
+//                }
+//                Product p = new DAO().getProductByID(id);
+//                Cart c = (Cart) session.getAttribute("cart");
+//                c.add(new Product(p.getId(), p.getName(), p.getImage(), p.getPrice(),
+//                        p.getTitle(), p.getDescription(), p.getCateID(), p.getSubImage(), p.getSizedetail(),
+//                        p.getAmount(), 1, p.getIsDeleted()));
+//                session.setAttribute("cart", c);
+//            }
+//            if (action != null && action.equalsIgnoreCase("minus")) {
+//                Product p = new DAO().getProductByID(id);
+//                Cart c = (Cart) session.getAttribute("cart");
+//                c.minus(new Product(p.getId(), p.getName(), p.getImage(), p.getPrice(),
+//                        p.getTitle(), p.getDescription(), p.getCateID(), p.getSubImage(), p.getSizedetail(),
+//                        p.getAmount(), p.getIsDeleted()));
+//                session.setAttribute("cart", c);
+//            } else if (action != null && action.equalsIgnoreCase("delete")) {
+//                Cart c = (Cart) session.getAttribute("cart");
+//                c.remove(Integer.parseInt(id));
+//                session.setAttribute("cart", c);
+//            }
+//        }
+//        request.getRequestDispatcher("Cart.jsp").forward(request, response);
+////        response.sendRedirect("order");
+        HttpSession session = request.getSession();
+        DAO dao = new DAO();
+// Kiểm tra xem người dùng đã đăng nhập chưa
+        if (session.getAttribute("acc") != null) {
+            String id = request.getParameter("id");
+            String action = request.getParameter("action");
+            String sizeid = request.getParameter("sizeID");
+            if (!(id == null && action == null)) {
+                if (action != null && action.equalsIgnoreCase("add")) {
+                    if (session.getAttribute("cart") == null) {
+                        List<Product> lst = new ArrayList<>();
+                        session.setAttribute("cart", new Cart(lst));
+                    }
+                    Product p = new DAO().getProductByID(id);
+                    Cart c = (Cart) session.getAttribute("cart");
 
-        if (!(id == null && action == null)) {
-            if (action != null && action.equalsIgnoreCase("add")) {
-                if (session.getAttribute("cart") == null) {
-                    List<Product> lst = new ArrayList<>();
-                    session.setAttribute("cart", new Cart(lst));
+                    c.add(new Product(p.getId(), p.getName(), p.getImage(), p.getPrice(),
+                            p.getTitle(), p.getDescription(), p.getCateID(), p.getSubImage(), p.getSizedetail(),
+                            p.getAmount(), 1, p.getIsDeleted()));
+                    session.setAttribute("cart", c);
+
                 }
-                Product p = new DAO().getProductByID(id);
-                Cart c = (Cart) session.getAttribute("cart");
-                c.add(new Product(p.getId(), p.getName(), p.getImage(), p.getPrice(),
-                        p.getTitle(), p.getDescription(), p.getCateID(), p.getSubImage(),
-                        p.getAmount(), 1, p.getIsDeleted()));
-                session.setAttribute("cart", c);
+                if (action != null && action.equalsIgnoreCase("minus")) {
+                    Product p = new DAO().getProductByID(id);
+                    Cart c = (Cart) session.getAttribute("cart");
+                    c.minus(new Product(p.getId(), p.getName(), p.getImage(), p.getPrice(),
+                            p.getTitle(), p.getDescription(), p.getCateID(), p.getSubImage(), p.getSizedetail(),
+                            p.getAmount(), p.getIsDeleted()));
+                    session.setAttribute("cart", c);
+                } else if (action != null && action.equalsIgnoreCase("delete")) {
+                    Cart c = (Cart) session.getAttribute("cart");
+                    c.remove(Integer.parseInt(id));
+                    session.setAttribute("cart", c);
+                }
             }
-            if (action != null && action.equalsIgnoreCase("minus")) {
-                Product p = new DAO().getProductByID(id);
-                Cart c = (Cart) session.getAttribute("cart");
-                c.minus(new Product(p.getId(), p.getName(), p.getImage(), p.getPrice(),
-                        p.getTitle(), p.getDescription(), p.getCateID(), p.getSubImage(),
-                        p.getAmount(), p.getIsDeleted()));
-                session.setAttribute("cart", c);
-            } else if (action != null && action.equalsIgnoreCase("delete")) {
-                Cart c = (Cart) session.getAttribute("cart");
-                c.remove(Integer.parseInt(id));
-                session.setAttribute("cart", c);
-            }
+           // dao.insertCart(id, accountID, sizeid);
+            request.getRequestDispatcher("Cart.jsp").forward(request, response);
+        } else {
+            // Người dùng chưa đăng nhập, có thể thực hiện các hành động khác hoặc chuyển hướng đến trang đăng nhập
+            response.sendRedirect("Login.jsp"); // Điều hướng đến trang đăng nhập
         }
-        request.getRequestDispatcher("Cart.jsp").forward(request, response);
 //        response.sendRedirect("order");
     }
 

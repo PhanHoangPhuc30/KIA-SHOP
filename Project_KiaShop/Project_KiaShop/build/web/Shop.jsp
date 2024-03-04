@@ -95,7 +95,8 @@
                         <div class="view d-flex">
                             <a href="ShopControl?showAllProducts=true"><i class="fa fa-th-large" aria-hidden="true"></i></a>
                         </div>
-                    </div></div>
+                    </div>
+                </div>
                 <!-- ##### Single Widget ##### -->
                 <div class="widget catagory mb-50">
                     <!-- Widget Title -->
@@ -111,81 +112,59 @@
                         </c:forEach>
                     </ul>
                 </div>
-
-
-
             </div>
 
             <!-- ##### Single Widget ##### -->
             <div class="widget brands mb-50">
                 <!-- Widget Title -->
                 <h6 class="widget-title mb-30">Price</h6>
-
                 <div class="widget-desc">
-                    <!-- Single Form Check -->
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" value="1" id="amado" name="price">
-                        <label class="form-check-label" for="amado">Under $100</label>
-                    </div>
-                    <!-- Single Form Check -->
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" value="2" id="ikea" name="price">
-                        <label class="form-check-label" for="ikea">$100 - $300</label>
-                    </div>
-                    <!-- Single Form Check -->
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" value="3" id="furniture" name="price">
-                        <label class="form-check-label" for="furniture">$300 - $500</label>
-                    </div>
-                    <!-- Single Form Check -->
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" value="4" id="factory" name="price">
-                        <label class="form-check-label" for="factory">$500 - $1000</label>
-                    </div>
-                    <!-- Single Form Check -->
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" value="5" id="artdeco" name="price">
-                        <label class="form-check-label" for="artdeco">$1000 +</label>
+                    <div class="catagories-menu">
+                        <ul>
+                            <c:forEach items="${listC}" var="catory">
+                                <c:if test="${!empty cID && catory.id eq cID}">
+                                    <li>
+                                        <a href="SortpriceControl?pageIndex=1&cID=${catory.id}&price=0-100" class="form-check-label" for="amado" id="amado" name="price">Under $100</a>
+                                    </li>
+                                    <li>
+                                        <a href="SortpriceControl?pageIndex=1&cID=${catory.id}&price=100-300" class="form-check-label" for="amado" id="amado" name="price">$100 - $300</a>
+                                    </li>
+                                    <li>
+                                        <a href="SortpriceControl?pageIndex=1&cID=${catory.id}&price=300-500" class="form-check-label" for="amado" id="amado" name="price">$300 - $500</a>
+                                    </li>
+                                    <li>
+                                        <a href="SortpriceControl?pageIndex=1&cID=${catory.id}&price=500-1000" class="form-check-label" for="amado" id="amado" name="price">$500 - $1000</a>
+                                    </li>
+                                    <li>
+                                        <a href="SortpriceControl?pageIndex=1&cID=${catory.id}&price=1000-3000" class="form-check-label" for="amado" id="amado" name="price">$1000 +</a>
+                                    </li>
+                                </c:if>
+                            </c:forEach>
+                            <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+                            <c:if test="${empty cID }">
+                                <li>
+                                    <a href="SortpriceControl?pageIndex=1&cID=&price=0-100" class="form-check-label" for="amado" id="amado" name="price">Under $100</a>
+                                </li>
+                                <li>
+                                    <a href="SortpriceControl?pageIndex=1&cID=&price=100-300" class="form-check-label" for="amado" id="amado" name="price">$100 - $300</a>
+                                </li>
+                                <li>
+                                    <a href="SortpriceControl?pageIndex=1&cID=&price=300-500" class="form-check-label" for="amado" id="amado" name="price">$300 - $500</a>
+                                </li>
+                                <li>
+                                    <a href="SortpriceControl?pageIndex=1&cID=&price=500-1000" class="form-check-label" for="amado" id="amado" name="price">$500 - $1000</a>
+                                </li>
+                                <li>
+                                    <a href="SortpriceControl?pageIndex=1&cID=&price=1000-3000" class="form-check-label" for="amado" id="amado" name="price">$1000 +</a>
+                                </li>
+                            </c:if>
+                        </ul>
                     </div>
                 </div>
             </div>
-
-            <!-- ##### Single Widget ##### -->
-            <div class="widget color mb-50">
-                <!--                 Widget Title 
-                                <h6 class="widget-title mb-30">Color</h6>
-                
-                                <div class="widget-desc">
-                                    <ul class="d-flex">
-                                        <li>
-                                            <a href="#" class="color1"></a>
-                                        </li>
-                                        <li>
-                                            <a href="#" class="color2"></a>
-                                        </li>
-                                        <li>
-                                            <a href="#" class="color3"></a>
-                                        </li>
-                                        <li>
-                                            <a href="#" class="color4"></a>
-                                        </li>
-                                        <li>
-                                            <a href="#" class="color5"></a>
-                                        </li>
-                                        <li>
-                                            <a href="#" class="color6"></a>
-                                        </li>
-                                        <li>
-                                            <a href="#" class="color7"></a>
-                                        </li>
-                                        <li>
-                                            <a href="#" class="color8"></a>
-                                        </li>
-                                    </ul>
-                                </div>-->
-            </div>
         </div>
 
+                            
         <div class="amado_product_area section-padding-100">
             <div class="container-fluid">
 
@@ -194,14 +173,17 @@
                         <div class="product-topbar d-xl-flex align-items-end justify-content-between">
                             <!-- Search Form -->
                             <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-
-                            <form action="SearchControl" method="get">
+                            <form id="searchForm" action="SearchControl" method="get">
                                 <input name="txt" type="text" placeholder="Search by name" value="${txtSearch}">
                                 <select name="cID" ${showAllProducts ? 'disabled' : ''}>
-                                    <c:if test="${empty cID || showAllProducts}">
-                                        <option ${empty cID && showAllProducts ? 'selected' : ''}>All Products</option>
-                                    </c:if>
-
+                                    <c:choose>
+                                        <c:when test="${empty cID || showAllProducts}">
+                                            <option selected disabled hidden>All Products</option>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <option disabled hidden>All Products</option>
+                                        </c:otherwise>
+                                    </c:choose>
                                     <c:forEach var="category" items="${listC}">
                                         <c:if test="${!empty cID && category.id eq cID}">
                                             <option value="${category.id}"selected>${category.name}</option>
@@ -210,18 +192,25 @@
                                 </select>
                                 <button type="submit">Search</button>
                             </form>
-
-
+                            <!-- Hiển thị thông báo kết quả -->
+                            <c:if test="${not empty resultCount}">
+                                <p>Found ${resultCount} product(s).</p>
+                            </c:if>
+                            <c:if test="${not empty resultCount}">
+                                <p>${errorMessage}</p>
+                            </c:if>
+                            <!-- Hiển thị thông báo lỗi nếu có -->
+                            <c:if test="${empty resultCount}">
+                                <p>${message}</p>
+                            </c:if>
                             <!-- Sorting -->
                             <div class="product-sorting d-flex">
                                 <div class="sort-by-date d-flex align-items-center mr-15">
                                     <p>Sort</p>
                                     <form action="#" method="get">
-                                        <select name="select" id="sortBydate">
-                                            <option value="value">Oldest</option>
-                                            <option value="value">Newest</option>
-                                            <option value="value">Popular</option>
-                                            <option value="value">Price</option>
+                                        <select name="select" id="sortByPrice"onchange="searchByName()">
+                                            <option value="asc" ${sort eq "asc" ? "selected" : ""}>Asc</option>
+                                            <option value="desc" ${sort eq "desc" ? "selected" : ""}>Desc</option>
                                         </select>
                                     </form>
                                 </div>
@@ -296,26 +285,24 @@
                         <nav aria-label="navigation">
                             <ul class="pagination justify-content-end mt-50" id="paging">
                                 <c:forEach begin="1" end="${totalPage}" var="i">
-                                    <c:url var="pageURL" value="ShopControl">
+                                    <c:url var="pageURL" value="">
                                         <c:param name="pageIndex" value="${i}" />
                                         <!-- Kiểm tra showAllProducts để thêm tham số cID khi cần -->
                                         <c:if test="${!showAllProducts}">
                                             <c:param name="cID" value="${cID}" />
+                                            <c:param name="price" value="${price}" />
                                         </c:if>
                                         <c:if test="${showAllProducts==true}">
                                             <c:param name="showAllProducts" value="${showAllProducts}" />
                                         </c:if>
                                     </c:url>
-
                                     <li class="page-item ${pageIndex == i ? 'active' : ''}">
                                         <a class="page-link" href="${pageURL}">
                                             ${i}
                                         </a>
                                     </li>
                                 </c:forEach>
-
                             </ul>
-
                         </nav>
                     </div>
                 </div>
@@ -343,10 +330,38 @@
     <script src="js/plugins.js"></script>
     <!-- Active js -->
     <script src="js/active.js"></script>
-
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <!-- Thêm script để thực hiện chức năng tìm kiếm -->
 
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-
+    <script>
+                                            function searchByName() {
+                                                var txtSearch = document.getElementById("txtSearch").value;
+                                                var cID = document.getElementById("categoryID").value;
+                                                var sort = document.getElementById("sortByPrice").value;
+                                                console.log(txtSearch);
+                                                $.ajax({
+                                                    url: "/Project_KiaShop/search",
+                                                    type: "get", //send it throung get method
+                                                    data: {
+                                                        txt: txtSearch,
+                                                        cID: cID,
+                                                        sort: sort
+                                                    },
+                                                    success: function (data) {
+                                                        var row = document.getElementById("content");
+                                                        row.innerHTML = data.product;
+                                                        var row2 = document.getElementById("paging");
+                                                        row2.innerHTML = data.paging;
+                                                        var row3 = document.getElementById("categoryMenu");
+                                                        row3.innerHTML = data.categoryMenu;
+                                                        var row4 = document.getElementById("formSort");
+                                                        row4.innerHTML = data.sortJson;
+                                                    },
+                                                    error: function (xhr) {
+                                                        //do something to handle error
+                                                    }
+                                                });
+                                            }
+    </script>
 </body>
 </html>

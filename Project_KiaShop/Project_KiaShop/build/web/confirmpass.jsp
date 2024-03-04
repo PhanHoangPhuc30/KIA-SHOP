@@ -48,6 +48,7 @@
                 <span class="error" id="repassword-error"></span>
                 <span class="error" id="confirmpass-error"></span>
                 <button class="btn btn-warning btn-block" name="btnpass" id="btnpass" value="Confirmpass" type="submit"> Submit</button>
+                <a id="backforgot" href="javascript:void(0);" onclick="goBack()"><i class="fas fa-angle-left"></i> Back</a>
             </form>
 
             <br>
@@ -60,89 +61,94 @@
         <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
         <script>
-            $(document).ready(function () {
-                $("#password, #repassword").on("input", function () {
-                    checkPasswordMatch();
-                });
-                $("#btnpass").click(function (event) {
-                    event.preventDefault(); // Prevent form submission
-                    performAjaxRequestForgot();
-                });
-            });
+                    $("#backforgot").click(function (event) {
+                        event.preventDefault();
+                        window.history.back();
+                    });
 
-            function checkPasswordMatch() {
-                var password = $("#password").val().trim();
-                var repassword = $("#repassword").val().trim();
-                $("#confirmpass-error, #password-error, #repassword-error").text("");
+                    $(document).ready(function () {
+                        $("#password, #repassword").on("input", function () {
+                            checkPasswordMatch();
+                        });
+                        $("#btnpass").click(function (event) {
+                            event.preventDefault(); // Prevent form submission
+                            performAjaxRequestForgot();
+                        });
+                    });
 
-                if (password !== repassword) {
-                    $("#confirmpass-error").text("Passwords do not match.").css("color", "red");
-                } else {
-                    $("#confirmpass-error").text("");
-                }
-            }
+                    function checkPasswordMatch() {
+                        var password = $("#password").val().trim();
+                        var repassword = $("#repassword").val().trim();
+                        $("#confirmpass-error, #password-error, #repassword-error").text("");
 
-            function performAjaxRequestForgot() {
-                var password = $("#password").val().trim();
-                var repassword = $("#repassword").val().trim();
-                var hasErrorse = false;
-                $("#confirmpass-error, #password-error, #repassword-error").text("");
-
-                // Check if email is empty or missing '@'
-                if (password === "") {
-                    $("#password-error").text("Please enter password.").css("color", "red");
-                    hasErrorse = true;
-                } else {
-                    $("#password-error").text("");
-                }
-                if (repassword === "") {
-                    $("#repassword-error").text("Please enter password.").css("color", "red");
-                    hasErrorse = true;
-                } else {
-                    $("#repassword-error").text("");
-                }
-
-                // If there is an error, stop further processing
-                if (hasErrorse) {
-                    return;
-                }
-
-                $.ajax({
-                    type: "POST",
-                    url: "confirmpass",
-                    data: {btnpass: "Confirmpass", password: password, repassword: repassword},
-                    success: function (response) {
-                        if (response === "SUCCESS") {
-                            Swal.fire({
-                                title: 'Forgot Success',
-                                text: 'Please check your email to confirm your account',
-                                icon: 'success',
-                                confirmButtonText: 'OK'
-                            }).then(() => {
-                                // Redirect to another page after clicking OK
-                                window.location.href = 'pin.jsp'; // Change this to the desired URL
-                            });
+                        if (password !== repassword) {
+                            $("#confirmpass-error").text("Passwords do not match.").css("color", "red");
                         } else {
-                            // Display SweetAlert for failure
-                            Swal.fire({
-                                title: 'Forgot Failed',
-                                text: 'Forgot failed, please check again.',
-                                icon: 'error',
-                                confirmButtonText: 'OK'
-                            });
+                            $("#confirmpass-error").text("");
                         }
-                    },
-                    error: function () {
-                        // Display SweetAlert for error
-                        Swal.fire({
-                            title: 'System Error',
-                            text: 'The system is failing',
-                            icon: 'error',
-                            confirmButtonText: 'OK'
+                    }
+
+                    function performAjaxRequestForgot() {
+                        var password = $("#password").val().trim();
+                        var repassword = $("#repassword").val().trim();
+                        var hasErrorse = false;
+                        $("#confirmpass-error, #password-error, #repassword-error").text("");
+
+                        // Check if email is empty or missing '@'
+                        if (password === "") {
+                            $("#password-error").text("Please enter password.").css("color", "red");
+                            hasErrorse = true;
+                        } else {
+                            $("#password-error").text("");
+                        }
+                        if (repassword === "") {
+                            $("#repassword-error").text("Please enter password.").css("color", "red");
+                            hasErrorse = true;
+                        } else {
+                            $("#repassword-error").text("");
+                        }
+
+                        // If there is an error, stop further processing
+                        if (hasErrorse) {
+                            return;
+                        }
+
+                        $.ajax({
+                            type: "POST",
+                            url: "confirmpass",
+                            data: {btnpass: "Confirmpass", password: password, repassword: repassword},
+                            success: function (response) {
+                                if (response === "SUCCESS") {
+                                    Swal.fire({
+//                                title: 'Forgot Success',
+                                        text: 'Check email to verify pin code',
+                                        icon: 'success',
+                                        confirmButtonText: 'OK'
+                                    }).then(() => {
+                                        // Redirect to another page after clicking OK
+                                        window.location.href = 'pin.jsp'; // Change this to the desired URL
+                                    });
+                                } else {
+                                    // Display SweetAlert for failure
+                                    Swal.fire({
+                                        title: 'Forgot Failed',
+                                        text: 'Forgot failed, please check again.',
+                                        icon: 'error',
+                                        confirmButtonText: 'OK'
+                                    });
+                                }
+                            },
+                            error: function () {
+                                // Display SweetAlert for error
+                                Swal.fire({
+                                    title: 'System Error',
+                                    text: 'The system is failing',
+                                    icon: 'error',
+                                    confirmButtonText: 'OK'
+                                });
+                            }
                         });
                     }
-                });
-            }
         </script>
     </body>
 </html>

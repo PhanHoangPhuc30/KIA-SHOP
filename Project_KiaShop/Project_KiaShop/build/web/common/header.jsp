@@ -33,9 +33,10 @@
         <nav class="amado-nav">
             <ul>
                 <!--<li><a href="HomeControl">Home</a></li>-->
-                <li><a href="ShopControl">Shop</a></li>
+                <li><a href="ShopControl?showAllProducts=true">Shop</a></li>
                     <c:if test="${sessionScope.acc.role == 1}">
                     <li><a href="ManagerControl"> Manager Product</a></li>
+                    <li><a href="ManagerCustomerControl"> Manager Customer</a></li>
                     </c:if>
                 <!--<li><a href="ProductDetail.jsp">Product</a></li>-->
                 <li><a href="cart">Cart</a></li>
@@ -52,6 +53,7 @@
                     <li><a href="Login.jsp">Login</a></li>
                     </c:if>
                     <c:if test="${sessionScope.acc != null}">
+                    <li><a href="profile">Profile</a></li>
                     <li><a href="Login.jsp">Logout</a></li>
                     </c:if>
             </ul>

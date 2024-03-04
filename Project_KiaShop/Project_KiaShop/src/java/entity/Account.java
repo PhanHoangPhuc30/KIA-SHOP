@@ -5,6 +5,8 @@
  */
 package entity;
 
+import java.util.Date;
+
 /**
  *
  * @author Admin
@@ -12,26 +14,41 @@ package entity;
 public class Account {
 
     private int id;
-    private String username;
+    private String fullname;
     private String email;
     private String password;
-    private int phone;
+    private String phone;
     private String address;
     private int role;
     private int pin;
+    private Date date;
 
     public Account() {
     }
 
-    public Account(int id, String username, String email, String password, int phone, String address, int role, int pin) {
+    public Account(int id, String fullname, String email, String password, String phone, String address, int role, int pin, Date date) {
         this.id = id;
-        this.username = username;
+        this.fullname = fullname;
         this.email = email;
         this.password = password;
         this.phone = phone;
         this.address = address;
         this.role = role;
         this.pin = pin;
+        this.date = date;
+    }
+//        public Account(String fullname, String email, String phone, String address) {
+//        this.fullname = fullname;
+//        this.email = email;
+//        this.phone = phone;
+//        this.address = address;
+//    }
+        public Account(int id, String fullname, String email, String phone, String address) {
+        this.id = id;
+        this.fullname = fullname;
+        this.email = email;
+        this.phone = phone;
+        this.address = address;
     }
 
     public int getId() {
@@ -74,19 +91,19 @@ public class Account {
         this.pin = pin;
     }
 
-    public String getUsername() {
-        return username;
+    public String getFullname() {
+        return fullname;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setFullname(String fullname) {
+        this.fullname = fullname;
     }
 
-    public int getPhone() {
+    public String getPhone() {
         return phone;
     }
 
-    public void setPhone(int phone) {
+    public void setPhone(String phone) {
         this.phone = phone;
     }
 
@@ -97,6 +114,15 @@ public class Account {
     public void setAddress(String address) {
         this.address = address;
     }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+    
 
     @Override
     public String toString() {

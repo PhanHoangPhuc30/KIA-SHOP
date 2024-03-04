@@ -21,6 +21,7 @@ public class Product {
     private String description;
     private int cateID;
     private List<SubImage> subImage;
+    private List<SizeDetail> sizedetail;
     private int isDeleted;
     private int amount; //số lượng
 
@@ -29,7 +30,7 @@ public class Product {
     public Product() {
     }
 
-    public Product(int id, String name, String image, double price, String title, String description, int cateID, List<SubImage> subImage, int amount, int isDeleted) {
+    public Product(int id, String name, String image, double price, String title, String description, int cateID, List<SubImage> subImage, List<SizeDetail> sizedetail, int amount, int isDeleted) {
         this.id = id;
         this.name = name;
         this.image = image;
@@ -38,11 +39,12 @@ public class Product {
         this.description = description;
         this.cateID = cateID;
         this.subImage = subImage;
+        this.sizedetail = sizedetail;
         this.amount = amount;
         this.isDeleted = isDeleted;
     }
 
-    public Product(int id, String name, String image, double price, String title, String description, int cateID, List<SubImage> subImage, int amount, int numberInCart, int isDeleted) {
+    public Product(int id, String name, String image, double price, String title, String description, int cateID, List<SubImage> subImage, List<SizeDetail> sizedetail, int amount, int numberInCart, int isDeleted) {
         this.id = id;
         this.name = name;
         this.image = image;
@@ -51,6 +53,7 @@ public class Product {
         this.description = description;
         this.cateID = cateID;
         this.subImage = subImage;
+        this.sizedetail = sizedetail;
         this.amount = amount;
         this.numberInCart = numberInCart;
         this.isDeleted = isDeleted;
@@ -142,6 +145,14 @@ public class Product {
 
     public void setIsDeleted(int isDeleted) {
         this.isDeleted = isDeleted;
+    }
+
+    public List<SizeDetail> getSizedetail() {
+        return sizedetail;
+    }
+
+    public void setSizedetail(List<SizeDetail> sizedetail) {
+        this.sizedetail = sizedetail;
     }
 
     @Override

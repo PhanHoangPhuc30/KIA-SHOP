@@ -5,13 +5,18 @@
 package control;
 
 import dao.DAO;
+import dao.EmailSender;
 import entity.Account;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -30,29 +35,10 @@ public class PinControl extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, Exception {
         response.setContentType("text/html;charset=UTF-8");
-        DAO dao = new DAO();
-        String pinParameter = request.getParameter("pin");
-
-        if (pinParameter != null && pinParameter.matches("\\d+")) {
-            int pin = Integer.parseInt(pinParameter);
-            Account a = dao.checkpin(pin);
-
-            if (a == null) {
-                response.getWriter().write("ERROR");
-                // Thực hiện các hành động khi có lỗi
-            } else {
-                response.getWriter().write("SUCCESS");
-                // Thực hiện các hành động khi thành công
-            }
-        } else {
-            response.getWriter().write("INVALID_PIN");
-            // Thực hiện các hành động khi giá trị pin không hợp lệ
-        }
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -64,9 +50,8 @@ public class PinControl extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
-    }
 
+    }
     /**
      * Handles the HTTP <code>POST</code> method.
      *
@@ -78,7 +63,60 @@ public class PinControl extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        DAO dao = new DAO();
+        EmailSender em = new EmailSender();
+        if (request.getParameter("btnpin") != null && request.getParameter("btnpin").equals("Pin")) {
+            String pinParameter = request.getParameter("pin");
+            if (pinParameter != null && pinParameter.matches("\\d+")) {
+                int pin = Integer.parseInt(pinParameter);
+                Account a = dao.checkpin(pin);
+                if (a == null) {
+                    response.getWriter().write("ERROR");
+                    // Thực hiện các hành động khi có lỗi
+                } else {
+                    response.getWriter().write("SUCCESS");
+                    // Thực hiện các hành động khi thành công
+                }
+            } else {
+                response.getWriter().write("INVALID_PIN");
+                // Thực hiện các hành động khi giá trị pin không hợp lệ
+            }
+        }
+
+        if (request.getParameter("backpin") != null && request.getParameter("backpin").equals("Back")) {
+            HttpSession session = request.getSession();
+            String emails = (String) session.getAttribute("checkEmail");
+            if (emails != null) {
+                try {
+                    dao.DeleteAccount(emails);
+                    //response.sendRedirect("Login.jsp");
+                    response.getWriter().write("ERROR");
+                } catch (Exception ex) {
+                    Logger.getLogger(PinControl.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+            } else {
+                response.getWriter().write("INVALID_PIN");
+            }
+
+        }
+        if (request.getParameter("resendpin") != null && request.getParameter("resendpin").equals("Resendpin")) {
+            HttpSession session = request.getSession();
+            String emails = (String) session.getAttribute("checkEmail");
+            if (emails != null) {
+                try {
+                    int pins = em.generateRandomPin();
+                    dao.UpdatePin(pins, emails);
+                    //response.sendRedirect("Login.jsp");
+                    response.getWriter().write("SUCCESS");
+                } catch (Exception ex) {
+                    Logger.getLogger(PinControl.class.getName()).log(Level.SEVERE, null, ex);
+                    response.getWriter().write("ERROR");
+                }
+            } else {
+                response.getWriter().write("INVALID_PIN");
+            }
+        }
     }
 
     /**

@@ -11,9 +11,12 @@ import entity.Account;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import java.util.Date;
 
 /**
  *
@@ -49,8 +52,11 @@ public class SignUpControl extends HttpServlet {
             //được sign up
         } else {
             int pin = em.generateRandomPin();
-            dao.signUp(username, email, hashedPassword, pin);
+            Date currentDate = new Date();
+            dao.signUp(username, email, hashedPassword, pin, currentDate);
             em.sendRegistrationEmail(email, pin);
+            HttpSession session = request.getSession();
+            session.setAttribute("checkEmail", email);
             response.getWriter().write("SUCCESS");
 
         }

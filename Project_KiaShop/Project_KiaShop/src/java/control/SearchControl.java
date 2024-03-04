@@ -14,6 +14,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -34,25 +35,94 @@ public class SearchControl extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
+        //        response.setContentType("text/html;charset=UTF-8");
+//        String txtSearch = request.getParameter("txt");
+//        String cID = request.getParameter("cID");
+//        DAO dao = new DAO();
+//        List<Category> listC = dao.getAllCategory();
+//        request.setAttribute("listC", listC);
+//        List<Product> list;
+//        // Kiểm tra xem đã nhập từ khóa tìm kiếm chưa
+//        if (txtSearch == null || txtSearch.isEmpty()) {
+//            // Chuyển hướng người dùng trở lại trang hiện tại
+//            request.setAttribute("listC", listC);
+//            request.getRequestDispatcher("Shop.jsp").forward(request, response);
+//            return;
+//        }
+//        if (cID != null && !cID.isEmpty()) {
+//            list = dao.search(txtSearch, cID);
+//        } else {
+//            // Nếu không có danh mục, chỉ thực hiện tìm kiếm theo tên
+//            list = dao.searchByName(txtSearch);
+//        }
+//
+//        request.setAttribute("listP", list);
+//        request.setAttribute("txtSearch", txtSearch);
+//        request.setAttribute("cID", cID);
+//
+//        request.getRequestDispatcher("Shop.jsp").forward(request, response);
+//Dang sua
+//        String txtSearch = request.getParameter("txt");
+//        String cID = request.getParameter("cID");
+//        DAO dao = new DAO();
+//        List<Category> listC = dao.getAllCategory();
+//        request.setAttribute("listC", listC);
+//
+//        if (txtSearch != null) {
+//            // Loại bỏ khoảng trắng không mong muốn
+//            txtSearch = txtSearch.trim();
+//            if (!txtSearch.isEmpty()) {
+//                List<Product> list;
+//                if (cID != null && !cID.isEmpty()) {
+//                    list = dao.search(txtSearch, cID);
+//                } else {
+//                    // Nếu không có danh mục, chỉ thực hiện tìm kiếm theo tên
+//                    list = dao.searchByName(txtSearch);
+//                }
+//                request.setAttribute("listP", list);
+//                request.setAttribute("txtSearch", txtSearch);
+//                request.setAttribute("cID", cID);
+//                request.getRequestDispatcher("Shop.jsp").forward(request, response);
+//                return;
+//            }
+//        }
+//
+//        // Nếu từ khóa tìm kiếm là rỗng, hiển thị thông báo và giữ lại trang hiện tại
+//        String errorMessage = "Please enter a keyword for search";
+//        request.setAttribute("errorMessage", errorMessage);
+//        List<Product> listP = dao.getAllProduct();
+//        request.setAttribute("listP", listP);
+//        request.getRequestDispatcher("Shop.jsp").forward(request, response);
+//
+//    }
         String txtSearch = request.getParameter("txt");
         String cID = request.getParameter("cID");
         DAO dao = new DAO();
         List<Category> listC = dao.getAllCategory();
         request.setAttribute("listC", listC);
         List<Product> list;
-        if (cID != null && !cID.isEmpty()) {
-            list = dao.search(txtSearch, cID);
+
+        if (txtSearch != null && !txtSearch.trim().isEmpty()) {
+            if (cID != null && !cID.isEmpty()) {
+                list = dao.search(txtSearch, cID);
+            } else {
+                list = dao.searchByName(txtSearch);
+            }
+            request.setAttribute("listP", list);
+            request.setAttribute("txtSearch", txtSearch);
+            request.setAttribute("cID", cID);
+            // Sau khi tìm kiếm xong và trước khi chuyển hướng tới trang JSP, tính số lượng sản phẩm đã tìm thấy và lưu vào biến resultCount
+            int resultCount = list.size();
+            request.setAttribute("resultCount", resultCount);
+            if (resultCount == 0) {
+                request.setAttribute("errorMessage", "No products found matching your search criteria.");
+            }
+
+            request.getRequestDispatcher("Shop.jsp").forward(request, response);
         } else {
-            // Nếu không có danh mục, chỉ thực hiện tìm kiếm theo tên
-            list = dao.searchByName(txtSearch);
+            request.setAttribute("message", "Please enter a keyword.");
+            request.getRequestDispatcher("Shop.jsp").forward(request, response);
         }
-
-        request.setAttribute("listP", list);
-        request.setAttribute("txtSearch", txtSearch);
-        request.setAttribute("cID", cID);
-
-        request.getRequestDispatcher("Shop.jsp").forward(request, response);
     }
 
 // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

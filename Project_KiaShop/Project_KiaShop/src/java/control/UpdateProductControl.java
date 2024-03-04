@@ -9,6 +9,7 @@ import dao.DAO;
 import entity.Category;
 import entity.Product;
 import entity.SubImage;
+import entity.SizeDetail;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -73,7 +74,7 @@ public class UpdateProductControl extends HttpServlet {
         PrintWriter out = response.getWriter();
         out.println("<div class=\"modal-dialog\">\n"
                 + "                    <div class=\"modal-content\">\n"
-                + "                        <form action=\"UpdateProductControl\" method=\"post\">\n"
+                + "                        <form action=\"UpdateProductControl\" method=\"post\" id=\"UpdateProductForm\">\n"
                 + "                            <div class=\"modal-header\">\n"
                 + "                                <h4 class=\"modal-title\">Edit Product</h4>\n"
                 + "                                <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">&times;</button>\n"
@@ -116,15 +117,71 @@ public class UpdateProductControl extends HttpServlet {
                 + "                                </div>\n"
                 + "                                <div class=\"form-group\">\n"
                 + "                                    <label>Tiêu đề</label>\n"
-                + "                                    <textarea name=\"title\" class=\"form-control\" required>" + product.getTitle() + "</textarea>\n"
+                + "                                    <textarea name=\"title\" class=\"form-control\" >" + product.getTitle() + "</textarea>\n"
                 + "                                </div>\n"
                 + "                                <div class=\"form-group\">\n"
                 + "                                    <label>Mô tả</label>\n"
-                + "                                    <textarea name=\"description\" class=\"form-control\" required>" + product.getDescription() + "</textarea>\n"
+                + "                                    <textarea name=\"description\" class=\"form-control\">" + product.getDescription() + "</textarea>\n"
                 + "                                </div>\n"
                 + "                                <div class=\"form-group\">\n"
                 + "                                    <label>Số lượng</label>\n"
-                + "                                    <input name=\"amount\" type=\"text\" class=\"form-control\" required value=\"" + product.getAmount() + "\">\n"
+                + "                                    <input name=\"amount\" type=\"text\" class=\"form-control\" required readonly value=\"" + product.getAmount() + "\">\n"
+                + "                                </div>\n"
+                + "                                 <div class=\"form-group\">\n"
+                + "                                    <label>Size Value </label>\n"
+                + "                                <input name=\"sizevalue1\" type=\"text\" class=\"form-control\" value=\"37\">\n"
+                + "                                </div>\n"
+                + "                               <div class=\"form-group\">\n"
+                + "                                <label> Quantity </label>\n"
+                + "                               <input name=\"quantity1\" type=\"text\" class=\"form-control\" required value=\"" + product.getSizedetail().get(0).getQuantity() + "\"min=\"1\" max=\"5000\">\n"
+                + "                                </div>\n"
+                + "                                 <div class=\"form-group\">\n"
+                + "                                    <label>Size Value </label>\n"
+                + "                                <input name=\"sizevalue2\" type=\"text\" class=\"form-control\" value=\"38\">\n"
+                + "                                </div>\n"
+                + "                               <div class=\"form-group\">\n"
+                + "                                <label> Quantity </label>\n"
+                + "                               <input name=\"quantity2\" type=\"text\" class=\"form-control\" required value=\"" + product.getSizedetail().get(1).getQuantity() + "\"min=\"1\" max=\"5000\">\n"
+                + "                                </div>\n"
+                + "                                 <div class=\"form-group\">\n"
+                + "                                    <label>Size Value </label>\n"
+                + "                                <input name=\"sizevalue3\" type=\"text\" class=\"form-control\" value=\"39\">\n"
+                + "                                </div>\n"
+                + "                               <div class=\"form-group\">\n"
+                + "                                <label> Quantity </label>\n"
+                + "                               <input name=\"quantity3\" type=\"text\" class=\"form-control\" required value=\"" + product.getSizedetail().get(2).getQuantity() + "\"min=\"1\" max=\"5000\">\n"
+                + "                                </div>\n"
+                + "                                 <div class=\"form-group\">\n"
+                + "                                    <label>Size Value </label>\n"
+                + "                                <input name=\"sizevalue4\" type=\"text\" class=\"form-control\" value=\"40\">\n"
+                + "                                </div>\n"
+                + "                               <div class=\"form-group\">\n"
+                + "                                <label> Quantity </label>\n"
+                + "                               <input name=\"quantity4\" type=\"text\" class=\"form-control\" required value=\"" + product.getSizedetail().get(3).getQuantity() + "\"min=\"1\" max=\"5000\">\n"
+                + "                                </div>\n"
+                + "                                 <div class=\"form-group\">\n"
+                + "                                    <label>Size Value </label>\n"
+                + "                                <input name=\"sizevalue5\" type=\"text\" class=\"form-control\" value=\"41\">\n"
+                + "                                </div>\n"
+                + "                               <div class=\"form-group\">\n"
+                + "                                <label> Quantity </label>\n"
+                + "                               <input name=\"quantity5\" type=\"text\" class=\"form-control\" required value=\"" + product.getSizedetail().get(4).getQuantity() + "\"min=\"1\" max=\"5000\">\n"
+                + "                                </div>\n"
+                + "                                 <div class=\"form-group\">\n"
+                + "                                    <label>Size Value </label>\n"
+                + "                                <input name=\"sizevalue6\" type=\"text\" class=\"form-control\" value=\"42\">\n"
+                + "                                </div>\n"
+                + "                               <div class=\"form-group\">\n"
+                + "                                <label> Quantity </label>\n"
+                + "                               <input name=\"quantity6\" type=\"text\" class=\"form-control\" required value=\"" + product.getSizedetail().get(5).getQuantity() + "\"min=\"1\" max=\"5000\">\n"
+                + "                                </div>\n"
+                + "                                 <div class=\"form-group\">\n"
+                + "                                    <label>Size Value </label>\n"
+                + "                                <input name=\"sizevalue7\" type=\"text\" class=\"form-control\" value=\"43\">\n"
+                + "                                </div>\n"
+                + "                               <div class=\"form-group\">\n"
+                + "                                <label> Quantity </label>\n"
+                + "                               <input name=\"quantity7\" type=\"text\" class=\"form-control\" required value=\"" + product.getSizedetail().get(6).getQuantity() + "\"min=\"1\" max=\"5000\">\n"
                 + "                                </div>\n"
                 + "                                <div class=\"form-group\">\n"
                 + "                                    <label>Loại sản phẩm</label>\n"
@@ -140,7 +197,9 @@ public class UpdateProductControl extends HttpServlet {
                 + "                            </div>\n"
                 + "                        </form>\n"
                 + "                    </div>\n"
-                + "                </div>");
+                + "                </div>\n"
+                + "            <script src=\"js/updateproduct.js\" type=\"text/javascript\"></script>\n"
+        );
     }
 
     /**
@@ -166,12 +225,28 @@ public class UpdateProductControl extends HttpServlet {
         String price = request.getParameter("price");
         String title = request.getParameter("title");
         String description = request.getParameter("description");
-        String amount = request.getParameter("amount");
+        //   String amount = request.getParameter("amount");
         String category = request.getParameter("category");
+
+        String sizevalue1 = request.getParameter("sizevalue1");
+        String quantity1 = request.getParameter("quantity1");
+        String sizevalue2 = request.getParameter("sizevalue2");
+        String quantity2 = request.getParameter("quantity2");
+        String sizevalue3 = request.getParameter("sizevalue3");
+        String quantity3 = request.getParameter("quantity3");
+        String sizevalue4 = request.getParameter("sizevalue4");
+        String quantity4 = request.getParameter("quantity4");
+        String sizevalue5 = request.getParameter("sizevalue5");
+        String quantity5 = request.getParameter("quantity5");
+        String sizevalue6 = request.getParameter("sizevalue6");
+        String quantity6 = request.getParameter("quantity6");
+        String sizevalue7 = request.getParameter("sizevalue7");
+        String quantity7 = request.getParameter("quantity7");
+        String[] sizeValues = {sizevalue1, sizevalue2, sizevalue3, sizevalue4, sizevalue5, sizevalue6, sizevalue7};
+        String[] quantities = {quantity1, quantity2, quantity3, quantity4, quantity5, quantity6, quantity7};
 
         DAO dao = new DAO();
         Product oldProduct = dao.getProductByID(pID);
-
         List<SubImage> listSubImg = dao.getAllSubImageByPID(pID);
         SubImage s = listSubImg.get(0);
         SubImage s1 = listSubImg.get(1);
@@ -191,9 +266,19 @@ public class UpdateProductControl extends HttpServlet {
 //            dao.updateSubImage(pID + "", subImage2,pID,oldProduct.getSubImage().get(1).getImage());
 //            dao.updateSubImage(pID + "", subImage3,pID,oldProduct.getSubImage().get(2).getImage());
 //            dao.updateSubImage(pID + "", subImage4,pID,oldProduct.getSubImage().get(3).getImage());
-        dao.updateProduct(name, image, price, title, description, category, Integer.parseInt(amount), Integer.parseInt(pID));
+        int totalQuantity = 0;
+        for (String quantity : quantities) {
+            if (quantity != null && !quantity.isEmpty()) {
+                totalQuantity += Integer.parseInt(quantity);
+            }
+        }
+        dao.updateProduct(name, image, price, title, description, category, totalQuantity, Integer.parseInt(pID));
 //            int pID = dao.getProductIDToAdd();
-
+        for (int i = 0; i < sizeValues.length; i++) {
+            if (!sizeValues[i].isEmpty() && !quantities[i].isEmpty()) {
+                dao.updateSizeAndQuantity(Integer.parseInt(pID), Integer.parseInt(sizeValues[i]), Integer.parseInt(quantities[i]));
+            }
+        }
         request.getRequestDispatcher("ManagerControl").forward(request, response);
     }
 

@@ -7,6 +7,7 @@ package control;
 
 import dao.DAO;
 import entity.Product;
+import entity.SizeDetail;
 import entity.SubImage;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -38,14 +39,14 @@ public class ProductDetailControl extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
 
         String pID = request.getParameter("productID");
-
         DAO dao = new DAO();
         Product p = dao.getProductByID(pID);
         int cid = p.getCateID();
         String cname = dao.getCnameByCID(cid + "");
+        List<SizeDetail> sizes = dao.getProductSizesByProductID(Integer.parseInt(pID));
         List<SubImage> listImage = dao.getAllSubImageByPID(pID);
         String image0 = "", image1 = "", image2 = "", image3 = "";
-        if (listImage.size() > 0) {
+        if (!listImage.isEmpty()) {
             if (listImage.size() >= 1) {
                 image0 = listImage.get(0).getImage();
             }
@@ -62,12 +63,11 @@ public class ProductDetailControl extends HttpServlet {
         request.setAttribute("detail", p);
         request.setAttribute("cateName", cname);
         request.setAttribute("cid", cid);
-        //request.setAttribute("listImage", listImage);
+        request.setAttribute("sizes", sizes);
         request.setAttribute("image0", image0);
         request.setAttribute("image1", image1);
         request.setAttribute("image2", image2);
         request.setAttribute("image3", image3);
-
         request.getRequestDispatcher("ProductDetail.jsp").forward(request, response);
     }
 

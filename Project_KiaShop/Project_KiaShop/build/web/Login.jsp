@@ -47,12 +47,6 @@
                 <span class="error" id="email-error"></span>
                 <input name="password" type="password" id="password" class="form-control" placeholder="Password">
                 <span class="error" id="password-error"></span>
-
-                <div class="form-group form-check">
-                    <input name="remember" value="1" type="checkbox" class="form-check-input" id="exampleCheck1">
-                    <label class="form-check-label" for="exampleCheck1">Remember me</label>
-                </div>
-
                 <button class="btn btn-warning btn-block" id="btnsignin" name="btnsignin" value="Signin" type="submit"><i class="fas fa-sign-in-alt"></i> Sign in</button>
                 <hr>
                 <button class="btn btn-dark btn-block" type="button" id="btn-signup"><i class="fas fa-user-plus"></i> Sign up New Account</button>
@@ -86,7 +80,7 @@
                 <a id="cancelforgot" href="javascript:void(0);" onclick="goBackforgot()"><i class="fas fa-angle-left"></i> Back</a>
             </form>
             <br>
-
+            
         </div>
         <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
@@ -223,8 +217,8 @@
                         $("#emails-error, #passwords-error, #repassword-error").text("");
 
                         // Check if email is empty or missing '@'
-                        if (username === "" || username.length === 4) {
-                            $("#username-error").text("Please enter your full name.").css("color", "red");
+                        if (username.length < 4) {
+                            $("#username-error").text("Please enter your fullname,It has at least 4 characters.").css("color", "red");
                             hasErrors = true;
                         } else {
                             $("#username-error").text("");
@@ -236,14 +230,14 @@
                             $("#emails-error").text("");
                         }
                         // Check if password is empty
-                        if (passwords === "" || passwords.length === 6) {
-                            $("#passwords-error").text("Please enter password.").css("color", "red");
+                        if (passwords.length < 6) {
+                            $("#passwords-error").text("Please enter password,It has at least 6 characters.").css("color", "red");
                             hasErrors = true;
                         } else {
                             $("#passwords-error").text("");
                         }
-                        if (repassword === "" || repassword.length === 6) {
-                            $("#repassword-error").text("Please enter password.").css("color", "red");
+                        if (repassword.length < 6) {
+                            $("#repassword-error").text("Please enter password,It has at least 6 characters.").css("color", "red");
                             hasErrors = true;
                         } else {
                             $("#repassword-error").text("");
@@ -261,8 +255,8 @@
                                 if (response === "SUCCESS") {
                                     // Redirect to another page after successful login
                                     Swal.fire({
-                                        title: 'Register Success',
-                                        text: 'Click OK to switch to the Sign in page ',
+                                       // title: 'Register Success',
+                                        text: 'Check email to verify pin code',
                                         icon: 'success',
                                         confirmButtonText: 'OK'
                                     }).then(() => {

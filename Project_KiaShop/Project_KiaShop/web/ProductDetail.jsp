@@ -5,6 +5,10 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="entity.SizeDetail"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
+<%@page import="java.util.List" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -25,6 +29,27 @@
         <!-- Core Style CSS -->
         <link href="http://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
         <link rel="stylesheet" href="css/core-style.css">
+        <style>
+            .container {
+                display: flex;
+                flex-wrap: wrap;
+                /*                justify-content: center;  Canh giữa các ô vuông theo chiều ngang */
+            }
+            .square {
+                width: 50px;
+                height: 50px;
+                border: 1px solid black;
+                margin: 5px;
+                display: flex;
+                justify-content: center; /* Canh giữa nội dung theo chiều ngang */
+                align-items: center; /* Canh giữa nội dung theo chiều dọc */
+                text-decoration: none;
+                color: black;
+                font-weight: bold;
+                line-height: 50px; /* Chiều cao của ô vuông */
+                text-align: center; /* Canh giữa văn bản theo chiều ngang */
+            }
+        </style>
         <!-- <link rel="stylesheet" href="style.css"> -->
     </head>
     <body>
@@ -44,8 +69,8 @@
                         <div class="col-12">
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb mt-50">
-                                    <li class="breadcrumb-item"><a href="HomeControl">Home</a></li>
-                                    <li class="breadcrumb-item"><a href="ShopControl">Shop</a></li>
+                                    <!--                                    <li class="breadcrumb-item"><a href="HomeControl">Home</a></li>-->
+                                    <li class="breadcrumb-item"><a href="ShopControl?showAllProducts=true">Shop</a></li>
                                     <li class="breadcrumb-item"><a href="ShopControl?pageIndex=1&cID=${o.cid}">${cateName}</a></li>
                                 <li class="breadcrumb-item active" aria-current="page">${detail.name}</li>
                             </ol>
@@ -98,7 +123,7 @@
                             <div class="product-meta-data">
                                 <div class="line"></div>
                                 <p class="product-price">$${detail.price}</p>
-                                <a href="product-details.html">
+                                <a>
                                     <h6>${detail.name}</h6>
                                 </a>
                                 <!-- Ratings & Review -->
@@ -116,6 +141,21 @@
                                 </div>
                                 <!-- Avaiable -->
                                 <p class="avaibility"><i class="fa fa-circle"></i> In Stock</p>
+                                <h8>Size: </h8> 
+                                <div class="container">
+                                    <% 
+                                    List<SizeDetail> sizes = (List<SizeDetail>) request.getAttribute("sizes");
+                                    if (sizes != null) {
+                                        for (SizeDetail size : sizes) {
+                                    %>
+                                    <a href="#" class="square">
+                                        <%= size.getSizevalue() %>
+                                    </a>
+                                    <% 
+                                        }
+                                    }
+                                    %>
+                                </div>
                             </div>
 
                             <div class="short_overview my-5">
@@ -125,26 +165,6 @@
 
                             <!-- Add to Cart Form -->
                             <form class="cart clearfix" method="post" action="">
-                                <!--<div class="cart-btn d-flex mb-50">-->
-                                <!--                                    <p>Qty</p>
-                                                                    <div class="quantity">
-                                                                        <span class="qty-minus" onclick="var effect = document.getElementById('qty');
-                                                                                var qty = effect.value;
-                                                                                if (!isNaN(qty) & amp)
-                                                                                    ;
-                                                                                amp;
-                                                                                qty & gt;
-                                                                                1;
-                                                                                effect.value--;
-                                                                                return false;"><i class="fa fa-caret-down" aria-hidden="true"></i></span>
-                                                                        <input type="number" class="qty-text" id="qty" step="1" min="1" max="300" name="quantity" value="1">
-                                                                        <span class="qty-plus" onclick="var effect = document.getElementById('qty');
-                                                                                var qty = effect.value;
-                                                                                if (!isNaN(qty))
-                                                                                    effect.value++;
-                                                                                return false;"><i class="fa fa-caret-up" aria-hidden="true"></i></span>
-                                                                    </div>-->
-                                <!--</div>-->
                                 <a href="cart?id=${detail.id}&action=add"><button type="button" name="addtocart" value="${detail.id}" class="btn amado-btn">Add to cart</button></a>
                             </form>
                             <form action="loadMore" method="post">
@@ -156,68 +176,67 @@
             </div>
         </div>
         <!-- Product Details Area End -->
-    </div>
-    <!-- ##### Main Content Wrapper End ##### -->
+        <!-- ##### Main Content Wrapper End ##### -->
 
-    <!-- ##### Newsletter Area Start ##### -->
+        <!-- ##### Newsletter Area Start ##### -->
 
-    <!-- ##### Newsletter Area End ##### -->
+        <!-- ##### Newsletter Area End ##### -->
 
-    <!-- ##### Footer Area Start ##### -->
-    <jsp:include page="common/footer.jsp"></jsp:include>
-    <!-- ##### Footer Area End ##### -->
+        <!-- ##### Footer Area Start ##### -->
+        <jsp:include page="common/footer.jsp"></jsp:include>
+        <!-- ##### Footer Area End ##### -->
 
-    <!-- ##### jQuery (Necessary for All JavaScript Plugins) ##### -->
-    <script src="js/jquery/jquery-2.2.4.min.js"></script>
-    <!-- Popper js -->
-    <script src="js/popper.min.js"></script>
-    <!-- Bootstrap js -->
-    <script src="js/bootstrap.min.js"></script>
-    <!-- Plugins js -->
-    <script src="js/plugins.js"></script>
-    <!-- Active js -->
-    <script src="js/active.js"></script>
-    <style>
-        .loadMore{
-            display: inline-block;
-            min-width: 160px;
-            height: 55px;
-            color: #ffffff;
-            border: none;
-            border-radius: 0;
-            padding: 0 7px;
-            font-size: 18px;
-            line-height: 56px;
-            background-color: #fbb710;
-            font-weight: 400;
-            margin-top: 10px;
-        }
-        .loadMore.active,
-        .loadMore:hover,
-        .loadMore:focus {
-            font-size: 18px;
-            color: #ffffff;
-            background-color: #131212;
-        }
-        .loadMore{
-            width: 160px;
-            display: block;
-        }
-        .loadMore{
-            width: 310px;
-            height: 80px;
-            line-height: 80px;
-        }
-        @media only screen and (min-width: 992px) and (max-width: 1199px) {
+        <!-- ##### jQuery (Necessary for All JavaScript Plugins) ##### -->
+        <script src="js/jquery/jquery-2.2.4.min.js"></script>
+        <!-- Popper js -->
+        <script src="js/popper.min.js"></script>
+        <!-- Bootstrap js -->
+        <script src="js/bootstrap.min.js"></script>
+        <!-- Plugins js -->
+        <script src="js/plugins.js"></script>
+        <!-- Active js -->
+        <script src="js/active.js"></script>
+        <style>
             .loadMore{
-                width: 250px;
+                display: inline-block;
+                min-width: 160px;
+                height: 55px;
+                color: #ffffff;
+                border: none;
+                border-radius: 0;
+                padding: 0 7px;
+                font-size: 18px;
+                line-height: 56px;
+                background-color: #fbb710;
+                font-weight: 400;
+                margin-top: 10px;
             }
-        }
-        @media only screen and (max-width: 767px) {
+            .loadMore.active,
+            .loadMore:hover,
+            .loadMore:focus {
+                font-size: 18px;
+                color: #ffffff;
+                background-color: #131212;
+            }
             .loadMore{
-                width: 280px;
+                width: 160px;
+                display: block;
             }
-        }
-    </style>
-</body>
+            .loadMore{
+                width: 310px;
+                height: 80px;
+                line-height: 80px;
+            }
+            @media only screen and (min-width: 992px) and (max-width: 1199px) {
+                .loadMore{
+                    width: 250px;
+                }
+            }
+            @media only screen and (max-width: 767px) {
+                .loadMore{
+                    width: 280px;
+                }
+            }
+        </style>
+    </body>
 </html>
