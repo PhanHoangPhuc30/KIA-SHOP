@@ -8,7 +8,6 @@ package control;
 import dao.DAO;
 import entity.Order;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.List;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -35,15 +34,53 @@ public class ManageOrderControl extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        
+
         DAO dao = new DAO();
         List<Order> list = dao.getAllOrders();
-        
+        Order order;
+        String sortOption = request.getParameter("sortOption");
+        String txtSearch = request.getParameter("searchInput");
+        String searchOption = request.getParameter("searchOption");
+        String acceptID = request.getParameter("acceptID");
+
+        double totalEarnings = dao.getTotalEarnings();
+        int totalOrders = dao.getTotalOrderCount();
+        int waitingOrder = dao.getCountWaitingOrders();
+        int acceptedOrder = dao.getCountAcceptedOrders();
+
+        // Kiểm tra nếu người dùng thực hiện tìm kiếm
+        if (txtSearch != null && !txtSearch.isEmpty()) {
+            if ("byPhoneNumber".equals(searchOption)) {
+                list = dao.searchOrderByPhoneNumber(txtSearch);
+            } else {
+                list = dao.searchOrderByName(txtSearch);
+            }
+        } else {
+            // Nếu không có từ khóa tìm kiếm, hiển thị tất cả khách hàng
+            list = dao.getAllOrders();
+        }
+
+        // Kiểm tra và thực hiện sắp xếp nếu có yêu cầu
+        if (sortOption != null && !sortOption.isEmpty()) {
+            if (sortOption.equals("Waiting")) {
+                list = dao.getAllWaitingOrders();
+            } else if (sortOption.equals("Accepted")) {
+                list = dao.getAllAcceptedOrders();
+            }
+        }
+
+//        if (acceptOption.equals("Accept")) {
+//            dao.updateStatusOrder(acceptID);
+//        }
+        request.setAttribute("acceptedOrder", acceptedOrder);
+        request.setAttribute("waitingOrder", waitingOrder);
+        request.setAttribute("totalE", totalEarnings);
+        request.setAttribute("totalOrders", totalOrders);
+
         request.setAttribute("listO", list);
         request.getRequestDispatcher("ManageOrder.jsp").forward(request, response);
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -59,7 +96,7 @@ public class ManageOrderControl extends HttpServlet {
     }
 
     /**
-     * Handles the HTTP <code>POST</code> method.
+     * * Handles the HTTP <code>POST</code> method.
      *
      * @param request servlet request
      * @param response servlet response

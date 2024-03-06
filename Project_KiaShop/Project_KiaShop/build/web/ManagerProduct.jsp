@@ -254,7 +254,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Price</label>
-                                    <input name="price" type="text" class="form-control" >
+                                    <input name="price" type="number" class="form-control" min="1" max="10000" >
                                     <span id="priceError" class="error-message"></span>
                                 </div>
                                 <div class="form-group">
@@ -273,7 +273,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label> Quantity </label>
-                                    <input name="quantity1" type="number" class="form-control" min="1" max="5000">
+                                    <input name="quantity1" type="number" class="form-control" min="0" max="100">
                                     <span id="quantity1Error" class="error-message"></span>
                                 </div>
                                 <div class="form-group">
@@ -282,7 +282,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label> Quantity </label>
-                                    <input name="quantity2" type="number" class="form-control" min="1" max="5000">
+                                    <input name="quantity2" type="number" class="form-control" min="0" max="100">
                                     <span id="quantity2Error" class="error-message"></span>
                                 </div>
                                 <div class="form-group">
@@ -291,7 +291,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label> Quantity </label>
-                                    <input name="quantity3" type="number" class="form-control" min="1" max="5000">
+                                    <input name="quantity3" type="number" class="form-control" min="0" max="100">
                                     <span id="quantity3Error" class="error-message"></span>
                                 </div>
                                 <div class="form-group">
@@ -300,7 +300,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label> Quantity </label>
-                                    <input name="quantity4" type="number" class="form-control" min="1" max="5000">
+                                    <input name="quantity4" type="number" class="form-control" min="0" max="100">
                                     <span id="quantity4Error" class="error-message"></span>
                                 </div>
                                 <div class="form-group">
@@ -309,7 +309,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label> Quantity </label>
-                                    <input name="quantity5" type="number" class="form-control" min="1" max="5000">
+                                    <input name="quantity5" type="number" class="form-control" min="0" max="100">
                                     <span id="quantity5Error" class="error-message"></span>
                                 </div>
                                 <div class="form-group">
@@ -318,7 +318,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label> Quantity </label>
-                                    <input name="quantity6" type="number" class="form-control" min="1" max="5000">
+                                    <input name="quantity6" type="number" class="form-control" min="0" max="100">
                                     <span id="quantity6Error" class="error-message"></span>
                                 </div>
                                 <div class="form-group">
@@ -327,7 +327,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label> Quantity </label>
-                                    <input name="quantity7" type="number" class="form-control" min="1" max="5000">
+                                    <input name="quantity7" type="number" class="form-control" min="0" max="100">
                                     <span id="quantity7Error" class="error-message"></span>
                                 </div>
                                 <%
@@ -535,7 +535,7 @@
                                                     displayError("subImage4", "Please enter link image 4.");
                                                     isValid = false;
                                                 }
-                                                if (price === "") {
+                                                if (price === "" || price === 0) {
                                                     displayError("price", "Please enter a Price.");
                                                     isValid = false;
                                                 }

@@ -7,7 +7,6 @@ package control;
 import dao.DAO;
 import entity.Account;
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -44,7 +43,6 @@ public class ProfileControl extends HttpServlet {
         request.getRequestDispatcher("Profile.jsp").forward(request, response);
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -76,9 +74,7 @@ public class ProfileControl extends HttpServlet {
             String fullName = request.getParameter("fullName");
             String phone = request.getParameter("phone");
             String email = request.getParameter("email");
-//         String password = request.getParameter("password");
             String address = request.getParameter("address");
-//            String role = request.getParameter("role");
             Account a = new Account(Integer.parseInt(id), fullName, email,  phone, address);
             DAO dao = new DAO();
             dao.updateProfile(a);

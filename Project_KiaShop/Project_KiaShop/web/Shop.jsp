@@ -164,7 +164,7 @@
             </div>
         </div>
 
-                            
+
         <div class="amado_product_area section-padding-100">
             <div class="container-fluid">
 
@@ -207,21 +207,16 @@
                             <div class="product-sorting d-flex">
                                 <div class="sort-by-date d-flex align-items-center mr-15">
                                     <p>Sort</p>
-                                    <form action="#" method="get">
-                                        <select name="select" id="sortByPrice"onchange="searchByName()">
-                                            <option value="asc" ${sort eq "asc" ? "selected" : ""}>Asc</option>
-                                            <option value="desc" ${sort eq "desc" ? "selected" : ""}>Desc</option>
+                                    <form action="Sort" method="get">
+                                        <label for="sortOption">Sort by:</label>
+                                        <select name="sortOption" id="sortOption">
+                                            <option value="AZ">A-Z</option>
+                                            <option value="ZA">Z-A</option>
+                                            <option value="asc">Price (Low to High)</option>
+                                            <option value="des">Price (High to Low)</option>
+                                            <option value="new">Newest Product</option>
                                         </select>
-                                    </form>
-                                </div>
-                                <div class="view-product d-flex align-items-center">
-                                    <p>View</p>
-                                    <form action="ShopControl" method="post">
-                                        <select name="viewPage" id="viewProduct" onchange="this.form.submit()">
-                                            <c:forEach items="${listView}" var="o">
-                                                <option ${numberProduct == o?"selected":""} value="${o}">${o}</option>
-                                            </c:forEach>
-                                        </select>
+                                        <button type="submit" class="btn btn-primary">Sort</button>
                                     </form>
                                 </div>
                             </div>
@@ -334,34 +329,34 @@
     <!-- Thêm script để thực hiện chức năng tìm kiếm -->
 
     <script>
-                                            function searchByName() {
-                                                var txtSearch = document.getElementById("txtSearch").value;
-                                                var cID = document.getElementById("categoryID").value;
-                                                var sort = document.getElementById("sortByPrice").value;
-                                                console.log(txtSearch);
-                                                $.ajax({
-                                                    url: "/Project_KiaShop/search",
-                                                    type: "get", //send it throung get method
-                                                    data: {
-                                                        txt: txtSearch,
-                                                        cID: cID,
-                                                        sort: sort
-                                                    },
-                                                    success: function (data) {
-                                                        var row = document.getElementById("content");
-                                                        row.innerHTML = data.product;
-                                                        var row2 = document.getElementById("paging");
-                                                        row2.innerHTML = data.paging;
-                                                        var row3 = document.getElementById("categoryMenu");
-                                                        row3.innerHTML = data.categoryMenu;
-                                                        var row4 = document.getElementById("formSort");
-                                                        row4.innerHTML = data.sortJson;
-                                                    },
-                                                    error: function (xhr) {
-                                                        //do something to handle error
-                                                    }
-                                                });
-                                            }
+        function searchByName() {
+            var txtSearch = document.getElementById("txtSearch").value;
+            var cID = document.getElementById("categoryID").value;
+            var sort = document.getElementById("sortByPrice").value;
+            console.log(txtSearch);
+            $.ajax({
+                url: "/Project_KiaShop/search",
+                type: "get", //send it throung get method
+                data: {
+                    txt: txtSearch,
+                    cID: cID,
+                    sort: sort
+                },
+                success: function (data) {
+                    var row = document.getElementById("content");
+                    row.innerHTML = data.product;
+                    var row2 = document.getElementById("paging");
+                    row2.innerHTML = data.paging;
+                    var row3 = document.getElementById("categoryMenu");
+                    row3.innerHTML = data.categoryMenu;
+                    var row4 = document.getElementById("formSort");
+                    row4.innerHTML = data.sortJson;
+                },
+                error: function (xhr) {
+                    //do something to handle error
+                }
+            });
+        }
     </script>
 </body>
 </html>

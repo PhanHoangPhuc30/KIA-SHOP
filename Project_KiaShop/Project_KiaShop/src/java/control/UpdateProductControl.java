@@ -9,7 +9,6 @@ import dao.DAO;
 import entity.Category;
 import entity.Product;
 import entity.SubImage;
-import entity.SizeDetail;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -225,7 +224,6 @@ public class UpdateProductControl extends HttpServlet {
         String price = request.getParameter("price");
         String title = request.getParameter("title");
         String description = request.getParameter("description");
-        //   String amount = request.getParameter("amount");
         String category = request.getParameter("category");
 
         String sizevalue1 = request.getParameter("sizevalue1");
@@ -261,11 +259,7 @@ public class UpdateProductControl extends HttpServlet {
         dao.updateSubImage(s1.getpID() + "", s1.getImage() + "", s1.getSubImageID() + "");
         dao.updateSubImage(s2.getpID() + "", s2.getImage() + "", s2.getSubImageID() + "");
         dao.updateSubImage(s3.getpID() + "", s3.getImage() + "", s3.getSubImageID() + "");
-//            String oldImg = oldProduct.getSubImage().
-//            dao.updateSubImage(pID + "",subImage1,pID, oldProduct.getSubImage().get(0).getImage());
-//            dao.updateSubImage(pID + "", subImage2,pID,oldProduct.getSubImage().get(1).getImage());
-//            dao.updateSubImage(pID + "", subImage3,pID,oldProduct.getSubImage().get(2).getImage());
-//            dao.updateSubImage(pID + "", subImage4,pID,oldProduct.getSubImage().get(3).getImage());
+
         int totalQuantity = 0;
         for (String quantity : quantities) {
             if (quantity != null && !quantity.isEmpty()) {
@@ -273,7 +267,6 @@ public class UpdateProductControl extends HttpServlet {
             }
         }
         dao.updateProduct(name, image, price, title, description, category, totalQuantity, Integer.parseInt(pID));
-//            int pID = dao.getProductIDToAdd();
         for (int i = 0; i < sizeValues.length; i++) {
             if (!sizeValues[i].isEmpty() && !quantities[i].isEmpty()) {
                 dao.updateSizeAndQuantity(Integer.parseInt(pID), Integer.parseInt(sizeValues[i]), Integer.parseInt(quantities[i]));

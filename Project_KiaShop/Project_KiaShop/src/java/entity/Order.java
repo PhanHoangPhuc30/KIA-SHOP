@@ -19,12 +19,13 @@ public class Order {
     private String address;
     private String sdt;
     private String name;
+    
     private double totalPrice;
-
+    private String status;
     public Order() {
     }
 
-    public Order(int id, Date date, int accountID, String address, String sdt, String name, double totalPrice) {
+    public Order(int id, Date date, int accountID, String address, String sdt, String name, double totalPrice, String status) {
         this.id = id;
         this.date = date;
         this.accountID = accountID;
@@ -32,6 +33,7 @@ public class Order {
         this.sdt = sdt;
         this.name = name;
         this.totalPrice = totalPrice;
+        this.status = status;
     }
 
     public int getId() {
@@ -88,6 +90,14 @@ public class Order {
 
     public void setTotalPrice(double totalPrice) {
         this.totalPrice = totalPrice;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     @Override

@@ -142,6 +142,7 @@
                             <div class="btn-group" role="group">
                                 <a href="ManagerCustomerControl?sortOption=AZ" class="btn btn-primary" style="margin-left:10px;">Sort A-Z</a>
                                 <a href="ManagerCustomerControl?sortOption=ZA" class="btn btn-primary">Sort Z-A</a>
+                                <a href="ManagerCustomerControl?sortOption=createdAt" class="btn btn-primary" style="margin-right:10px;">Sort by Created At</a>
                             </div>
                         </div>
                     </div>

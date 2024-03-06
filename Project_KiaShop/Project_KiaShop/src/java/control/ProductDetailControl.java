@@ -10,7 +10,6 @@ import entity.Product;
 import entity.SizeDetail;
 import entity.SubImage;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.List;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -71,7 +70,6 @@ public class ProductDetailControl extends HttpServlet {
         request.getRequestDispatcher("ProductDetail.jsp").forward(request, response);
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *

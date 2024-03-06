@@ -10,7 +10,6 @@ import entity.Account;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -107,7 +106,6 @@ public class PinControl extends HttpServlet {
                 try {
                     int pins = em.generateRandomPin();
                     dao.UpdatePin(pins, emails);
-                    //response.sendRedirect("Login.jsp");
                     response.getWriter().write("SUCCESS");
                 } catch (Exception ex) {
                     Logger.getLogger(PinControl.class.getName()).log(Level.SEVERE, null, ex);

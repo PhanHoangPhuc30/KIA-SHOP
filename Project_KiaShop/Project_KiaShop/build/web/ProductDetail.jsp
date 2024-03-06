@@ -148,7 +148,7 @@
                                     if (sizes != null) {
                                         for (SizeDetail size : sizes) {
                                     %>
-                                    <a href="#" class="square">
+                                    <a href="#" class="square" data-size="${size.sizevalue}">
                                         <%= size.getSizevalue() %>
                                     </a>
                                     <% 
@@ -165,7 +165,7 @@
 
                             <!-- Add to Cart Form -->
                             <form class="cart clearfix" method="post" action="">
-                                <a href="cart?id=${detail.id}&action=add"><button type="button" name="addtocart" value="${detail.id}" class="btn amado-btn">Add to cart</button></a>
+                                <a href="cart?id=${detail.id}&sizevalue=${size.getSizevalue()}&action=add"><button type="button" name="addtocart" value="${detail.id}&${size.getSizevalue()}" class="btn amado-btn">Add to cart</button></a>
                             </form>
                             <form action="loadMore" method="post">
                                 <button type="submit" class="loadMore">Load More</button>

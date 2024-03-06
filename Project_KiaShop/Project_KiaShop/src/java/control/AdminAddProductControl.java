@@ -6,15 +6,12 @@
 package control;
 
 import dao.DAO;
-import entity.Product;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
 import java.io.IOException;
-import java.io.PrintWriter;
 
 /**
  *
@@ -83,15 +80,7 @@ public class AdminAddProductControl extends HttpServlet {
             dao.addNewSubImage(pID + "", subImage3);
             dao.addNewSubImage(pID + "", subImage4);
 
-            // Thêm các cặp sizevalue và quantity vào cơ sở dữ liệu
-//            dao.addSizeAndQuantity(pID, Integer.parseInt(sizevalue1), Integer.parseInt(quantity1));
-//            dao.addSizeAndQuantity(pID, Integer.parseInt(sizevalue2), Integer.parseInt(quantity2));
-//            dao.addSizeAndQuantity(pID, Integer.parseInt(sizevalue3), Integer.parseInt(quantity3));
-//            dao.addSizeAndQuantity(pID, Integer.parseInt(sizevalue4), Integer.parseInt(quantity4));
-//            dao.addSizeAndQuantity(pID, Integer.parseInt(sizevalue5), Integer.parseInt(quantity5));
-//            dao.addSizeAndQuantity(pID, Integer.parseInt(sizevalue6), Integer.parseInt(quantity6));
-//            dao.addSizeAndQuantity(pID, Integer.parseInt(sizevalue7), Integer.parseInt(quantity7));
-// Thêm các cặp sizevalue và quantity vào cơ sở dữ liệu nếu đã được nhập
+            // Thêm các cặp sizevalue và quantity vào cơ sở dữ liệu nếu đã được nhập
             for (int i = 0; i < sizeValues.length; i++) {
                 if (!sizeValues[i].isEmpty() && !quantities[i].isEmpty()) {
                     dao.addSizeAndQuantity(pID, Integer.parseInt(sizeValues[i]), Integer.parseInt(quantities[i]));
@@ -101,7 +90,6 @@ public class AdminAddProductControl extends HttpServlet {
         }
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *

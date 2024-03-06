@@ -13,7 +13,6 @@ import entity.OrderDetails;
 import entity.Product;
 import entity.SizeDetail;
 import entity.SubImage;
-import java.math.BigDecimal;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
@@ -25,8 +24,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -38,6 +35,7 @@ public class DAO {
     PreparedStatement ps = null;
     ResultSet rs = null;
 
+    // lấy hình ảnh bằng ID sản phẩm
     public List<SubImage> getAllSubImageByPID(String cid) {
         List<SubImage> list = new ArrayList<>();
         String query = "select S.*\n"
@@ -56,33 +54,7 @@ public class DAO {
         return list;
     }
 
-    public List<Product> getProductForHome() {
-        List<Product> list = new ArrayList<>();
-        String query = "select * from Home\n";
-        try {
-            conn = new DBContext().getConnection(); //mo ket noi toi sql
-            ps = conn.prepareStatement(query);//nem cau lenh query sang sql
-            rs = ps.executeQuery();//chay cau lenh query, nhan ket qua tra ve
-            while (rs.next()) {
-                int pId = rs.getInt(1);
-                String name = rs.getString(2);
-                String image = rs.getString(3);
-                double price = rs.getDouble(4);
-                String title = rs.getString(5);
-                String description = rs.getString(6);
-                int amount = rs.getInt(8);
-                int cateID = rs.getInt(7);
-                DAO dao = new DAO();
-                List<SubImage> listImage = dao.getAllSubImageByPID(pId + "");
-                List<SizeDetail> sizedetail = dao.getAllSizeByID(pId + "");
-                list.add(new Product(pId, name, image, price, title, description, cateID, listImage, sizedetail, amount, rs.getInt(9)));
-            }
-
-        } catch (Exception e) {
-        }
-        return list;
-    }
-
+    // hiện tất cả sản phẩm có isdelete bằng 0
     public List<Product> getAllProduct() {
         List<Product> list = new ArrayList<>();
         String query = "select * from Product where isDeleted != 1";
@@ -106,6 +78,7 @@ public class DAO {
         return list;
     }
 
+    // hiện tất cả sản phẩm theo danh mục
     public List<Category> getAllCategory() {
         List<Category> list = new ArrayList<>();
         String query = "select * from Category";
@@ -122,6 +95,7 @@ public class DAO {
         return list;
     }
 
+    // tổng số lượng đơn hàng
     public int getNumberItemsSolid() {
         int n = 0;
         String query = "select SUM(Quantity) from OrderDetails";
@@ -137,6 +111,7 @@ public class DAO {
         return n;
     }
 
+    // tính tổng đơn hàng
     public double getTotalEarnings() {
         double total = 0;
         List<OrderDetails> list = new ArrayList<>();
@@ -156,7 +131,7 @@ public class DAO {
         }
         return total;
     }
-//-----------------Login-------------------
+    //-----------------Login-------------------
 
     public String encryptToMD5(String password) {
         try {
@@ -205,8 +180,8 @@ public class DAO {
         }
         return null;
     }
-//check email exits
 
+    //check email exits
     public Account checkExist(String email) {
         String query = "select * from Account\n"
                 + "where email = ?";
@@ -274,6 +249,7 @@ public class DAO {
         return null;
     }
 
+    // update mã pin
     public Account UpdatePin(int pin, String email) {
         String query = "UPDATE Account\n"
                 + "SET pin = ?\n"
@@ -290,6 +266,7 @@ public class DAO {
         return null;
     }
 
+    // xóa mã pin
     public Account DeletePin(String emails) {
         String query = "UPDATE Account \n"
                 + "SET pin = 0\n"
@@ -965,7 +942,7 @@ public class DAO {
         return list;
     }
 
-    //-------Ngà--------------
+    //-----------------------Ngà---------------------
     // Lay toan bo khach hang
     public List<Account> getAllCustomer() {
         List<Account> list = new ArrayList<>();
@@ -1044,7 +1021,7 @@ public class DAO {
         return customers;
     }
 
-    //Code dang lam 
+    //nhập size và quantity dựa vào pID
     public void addSizeAndQuantity(int productId, int sizeValue, int quantity) {
         try {
             // Tìm sizeID dựa trên sizevalue
@@ -1069,6 +1046,7 @@ public class DAO {
         }
     }
 
+    // tìm kiếm khách hàng bằng tên
     public List<Account> searchCustomersByName(String txtSearch) {
         List<Account> list = new ArrayList<>();
         String query = "SELECT * FROM Account WHERE LOWER(fullname) LIKE LOWER(?) AND role = 0";
@@ -1091,6 +1069,7 @@ public class DAO {
         return list;
     }
 
+    // lất size value từ bảng size
     private int getSizeIdBySizeValue(int sizeValue) {
         String query = "SELECT sizeID FROM Size WHERE sizevalue = ?";
         try {
@@ -1128,6 +1107,51 @@ public class DAO {
             e.printStackTrace();
         }
         return sizes;
+    }
+
+    //Sắp xếp khách hàng mới
+    public List<Account> getNewCustomers() {
+        List<Account> customers = getAllCustomer();
+        Collections.sort(customers, Comparator.comparing(Account::getId).reversed());
+        return customers;
+    }
+//Sắp xếp sản phẩm hàng A-Z
+
+    public List<Product> getProductSortedByNameAZ() {
+        List<Product> products = getAllProduct();
+        Collections.sort(products, Comparator.comparing(Product::getName));
+        return products;
+    }
+
+    //Sắp xếp sản phẩm hàng Z-A
+    public List<Product> getProductSortedByNameZA() {
+        List<Product> products = getAllProduct();
+        Collections.sort(products, Comparator.comparing(Product::getName).reversed());
+        return products;
+    }
+
+    // Phương thức để sắp xếp danh sách sản phẩm theo giá tăng dần
+    public List<Product> getProductSortedByPriceAscending() {
+        List<Product> products = getAllProduct();
+        // Sử dụng phương thức sort của lớp Collections và truyền vào một Comparator
+        Collections.sort(products, Comparator.comparing(Product::getPrice));
+        return products;
+    }
+
+    // Phương thức để sắp xếp danh sách sản phẩm theo giá giảm dần
+    public List<Product> getProductSortedByPriceDescending() {
+        List<Product> products = getAllProduct();
+        // Sử dụng phương thức sort của lớp Collections và truyền vào một Comparator
+        Collections.sort(products, Comparator.comparing(Product::getPrice).reversed());
+        return products;
+    }
+
+    // Phương thức để sắp xếp danh sách sản phẩm theo giá giảm dần
+    public List<Product> getProductSortedByNewestProduct() {
+        List<Product> products = getAllProduct();
+        // Sử dụng phương thức sort của lớp Collections và truyền vào một Comparator
+        Collections.sort(products, Comparator.comparing(Product::getId).reversed());
+        return products;
     }
 
     //----------------huy---------
@@ -1215,7 +1239,6 @@ public class DAO {
                 + "FROM SizeDetail SD\n"
                 + "JOIN Size S ON SD.sizeID = S.sizeID\n"
                 + "WHERE SD.pID = ?";
-        DAO dao = new DAO();
         try {
             conn = new DBContext().getConnection(); //mo ket noi toi sql
             ps = conn.prepareStatement(query);//nem cau lenh query sang sql
@@ -1273,24 +1296,8 @@ public class DAO {
         }
     }
 
-    public int getTotalOrderCount() {
-        int count = 0;
-        String query = "SELECT COUNT(*) FROM [Order]";
-        try {
-            conn = new DBContext().getConnection();
-            ps = conn.prepareStatement(query);
-            rs = ps.executeQuery();
-            if (rs.next()) {
-                count = rs.getInt(1);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return count;
-    }
-    
     //code giỏ hàng đang làm
-        public void insertCart(String productID, String accountID,String sizeID) {
+    public void insertCart(String productID, String accountID, String sizeID) {
         String query = "INSERT INTO Cart(productID, accountID, sizeID)\n"
                 + "VALUES (?, ?, ?)";
         try {
@@ -1307,6 +1314,23 @@ public class DAO {
 
     // Duy
     // Get all orders
+    public int getTotalOrderCount() {
+        int count = 0;
+        String query = "SELECT COUNT(*) FROM [Order]";
+        try {
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(query);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                count = rs.getInt(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return count;
+    }
+
+    // Get all orders
     public List<Order> getAllOrders() {
         List<Order> list = new ArrayList<>();
         String query = "select * from [Project_KiAShop].[dbo].[Order]";
@@ -1321,11 +1345,197 @@ public class DAO {
                         rs.getString(4),
                         rs.getString(5),
                         rs.getString(6),
-                        rs.getDouble(7)));
+                        rs.getDouble(7),
+                        rs.getString(8)));
             }
         } catch (Exception e) {
         }
+        return list;
+    }
 
+    //get all waiting orders
+    public List<Order> getAllWaitingOrders() {
+        List<Order> list = new ArrayList<>();
+        String query = "select * from [Project_KiAShop].[dbo].[Order] where status ='Waiting'";
+        try {
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(query);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(new Order(rs.getInt(1),
+                        rs.getDate(2),
+                        rs.getInt(3),
+                        rs.getString(4),
+                        rs.getString(5),
+                        rs.getString(6),
+                        rs.getDouble(7),
+                        rs.getString(8)));
+            }
+        } catch (Exception e) {
+        }
+        return list;
+    }
+
+    // get all accepted orders
+    public List<Order> getAllAcceptedOrders() {
+        List<Order> list = new ArrayList<>();
+        String query = "select * from [Project_KiAShop].[dbo].[Order] where status ='Accepted'";
+        try {
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(query);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(new Order(rs.getInt(1),
+                        rs.getDate(2),
+                        rs.getInt(3),
+                        rs.getString(4),
+                        rs.getString(5),
+                        rs.getString(6),
+                        rs.getDouble(7),
+                        rs.getString(8)));
+            }
+        } catch (Exception e) {
+        }
+        return list;
+    }
+
+    // get total count order
+    // get count waiting order
+    public int getCountWaitingOrders() {
+        int count = 0;
+        String query = "SELECT count(*) FROM [Project_KiAShop].[dbo].[Order] where status ='Waiting'";
+        try {
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(query);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                count = rs.getInt(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return count;
+    }
+    // get count accepted order
+
+    public int getCountAcceptedOrders() {
+        int count = 0;
+        String query = "SELECT count(*) FROM [Project_KiAShop].[dbo].[Order] where status ='Accepted'";
+        try {
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(query);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                count = rs.getInt(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return count;
+    }
+
+    // update status
+    public void updateStatusOrder(String id) {
+        String query = "Update [Order] set status = 'Accepted' WHERE id = ?";
+        try {
+            conn = new DBContext().getConnection(); //mo ket noi toi sql
+            ps = conn.prepareStatement(query);
+            ps.setString(1, id);
+            ps.executeUpdate();
+        } catch (Exception ex) {
+        }
+    }
+
+    //cancel order
+    public void cancelOrder(String id) {
+        String query = "Update [Order] set status = 'Canceled' WHERE id = ?";
+        try {
+            conn = new DBContext().getConnection(); //mo ket noi toi sql
+            ps = conn.prepareStatement(query);
+            ps.setString(1, id);
+            ps.executeUpdate();
+        } catch (Exception ex) {
+        }
+    }
+
+    // get order by id
+    public Order getOrderByID(String id) {
+        String query = "select * from [Project_KiAShop].[dbo].[Order] where id = ?";
+        DAO dao = new DAO();
+        try {
+            conn = new DBContext().getConnection(); //mo ket noi toi sql
+            ps = conn.prepareStatement(query);//nem cau lenh query sang sql
+            ps.setString(1, id);
+            rs = ps.executeQuery();//chay cau lenh query, nhan ket qua tra ve
+            while (rs.next()) {
+                return new Order(rs.getInt(1),
+                        rs.getDate(2),
+                        rs.getInt(3),
+                        rs.getString(4),
+                        rs.getString(5),
+                        rs.getString(6),
+                        rs.getDouble(7),
+                        rs.getString(8));
+            }
+
+        } catch (Exception e) {
+        }
+        return null;
+    }
+
+    // search order by phone
+    public List<Order> searchOrderByPhoneNumber(String txtSearch) {
+        List<Order> orders = new ArrayList<>();
+        String query = "SELECT * FROM [Project_KiAShop].[dbo].[Order] WHERE sdt LIKE ? ";
+        try {
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setString(1, "%" + txtSearch + "%");
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Order order = new Order();
+
+                order.setId(rs.getInt("id"));
+                order.setDate(rs.getDate("orderDate"));
+                order.setAccountID(rs.getInt("accountID"));
+                order.setAddress(rs.getString("addressReceive"));
+                order.setSdt(rs.getString("sdt"));
+                order.setName(rs.getString("name"));
+                order.setTotalPrice(rs.getInt("totalPrice"));
+                order.setStatus(rs.getString("status"));
+
+                orders.add(order);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return orders;
+    }
+
+    // search order by name
+    public List<Order> searchOrderByName(String txtSearch) {
+        List<Order> list = new ArrayList<>();
+        String query = "SELECT * FROM [Project_KiAShop].[dbo].[Order] WHERE LOWER(name) LIKE LOWER(?)";
+        try {
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setString(1, "%" + txtSearch.toLowerCase() + "%");
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Order order = new Order();
+
+                order.setId(rs.getInt("id"));
+                order.setDate(rs.getDate("orderDate"));
+                order.setAccountID(rs.getInt("accountID"));
+                order.setAddress(rs.getString("addressReceive"));
+                order.setSdt(rs.getString("sdt"));
+                order.setName(rs.getString("name"));
+                order.setTotalPrice(rs.getInt("totalPrice"));
+                order.setStatus(rs.getString("status"));
+
+                list.add(order);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return list;
     }
 

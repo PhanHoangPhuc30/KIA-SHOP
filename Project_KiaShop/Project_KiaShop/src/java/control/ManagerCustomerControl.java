@@ -8,7 +8,6 @@ package control;
 import dao.DAO;
 import entity.Account;
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import java.util.List;
 import jakarta.servlet.annotation.WebServlet;
@@ -61,6 +60,8 @@ public class ManagerCustomerControl extends HttpServlet {
                 customers = dao.getCustomersSortedByNameAZ();
             } else if (sortOption.equals("ZA")) {
                 customers = dao.getCustomersSortedByNameZA();
+            } else if (sortOption.equals("createdAt")) {
+                customers = dao.getNewCustomers();
             }
         }
 
@@ -73,7 +74,6 @@ public class ManagerCustomerControl extends HttpServlet {
         request.getRequestDispatcher("ManagerCustomer.jsp").forward(request, response);
     }
 
-// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *

@@ -8,7 +8,6 @@ package control;
 import entity.Account;
 import entity.Cart;
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -38,7 +37,6 @@ public class BuyControl extends HttpServlet {
 
         HttpSession session = request.getSession();
         Account a = (Account) session.getAttribute("acc");
-//        double total = (double) session.getAttribute("total");
         Cart c = (Cart) session.getAttribute("cart");
         double total = 0;
         if (c != null) {
@@ -55,7 +53,6 @@ public class BuyControl extends HttpServlet {
         }
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *

@@ -37,6 +37,7 @@
                     <c:if test="${sessionScope.acc.role == 1}">
                     <li><a href="ManagerControl"> Manager Product</a></li>
                     <li><a href="ManagerCustomerControl"> Manager Customer</a></li>
+                    <li><a href="ManageOrderControl"> Manager Order</a></li>
                     </c:if>
                 <!--<li><a href="ProductDetail.jsp">Product</a></li>-->
                 <li><a href="cart">Cart</a></li>
