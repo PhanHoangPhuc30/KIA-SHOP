@@ -20,6 +20,10 @@ public class Size {
         this.sizeID = sizeID;
         this.sizevalue = sizevalue;
     }
+    
+     public Size(int sizeID) {
+        this.sizeID = sizeID;
+    }
 
     public int getSizeID() {
         return sizeID;

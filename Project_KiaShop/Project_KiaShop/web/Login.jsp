@@ -159,7 +159,7 @@
                             data: {btnsignin: "Signin", email: email, password: password},
                             success: function (response) {
                                 if (response === "SUCCESS") {
-                                    window.location.href = 'Shop.jsp'; // Change this to the desired URL
+                                    window.location.href = 'ShopControl'; // Change this to the desired URL
                                 } else {
                                     // Display SweetAlert for failure
                                     Swal.fire({

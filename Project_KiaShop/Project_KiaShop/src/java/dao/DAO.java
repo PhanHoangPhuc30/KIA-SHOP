@@ -11,6 +11,7 @@ import entity.Category;
 import entity.Order;
 import entity.OrderDetails;
 import entity.Product;
+import entity.Size;
 import entity.SizeDetail;
 import entity.SubImage;
 import java.security.MessageDigest;
@@ -608,9 +609,9 @@ public class DAO {
         return list;
     }
 
-    public void insertOrder(String date, int accountID, String address, String sdt, String name, double total) {
-        String query = "INSERT INTO [Order](orderDate, accountID,addressReceive,sdt,name,totalPrice)\n"
-                + "VALUES (?, ?, ?, ?, ?, ?)";
+    public void insertOrder(String date, int accountID, String address, String sdt, String name, double total, String status) {
+        String query = "INSERT INTO [Order](orderDate, accountID,addressReceive,sdt,name,totalPrice,status)\n"
+                + "VALUES (?, ?, ?, ?, ?, ?, ?)";
         try {
             conn = new DBContext().getConnection();
             ps = conn.prepareStatement(query);
@@ -621,8 +622,10 @@ public class DAO {
             ps.setString(4, sdt);
             ps.setString(5, name);
             ps.setDouble(6, total);
+            ps.setString(7, status);
             ps.executeUpdate();
         } catch (Exception e) {
+            e.printStackTrace();
         }
 
     }
@@ -641,8 +644,8 @@ public class DAO {
         return 0;
     }
 
-    public void insertOrderDetails(int orderID, int productID, double price, int amount) {
-        String query = "INSERT INTO OrderDetails VALUES (?, ?, ?, ?)";
+    public void insertOrderDetails(int orderID, int productID, double price, int amount, int sizeId) {
+        String query = "INSERT INTO OrderDetails VALUES (?, ?, ?, ?, ?)";
         try {
             conn = new DBContext().getConnection();
             ps = conn.prepareStatement(query);
@@ -650,8 +653,10 @@ public class DAO {
             ps.setInt(2, productID);
             ps.setDouble(3, price);
             ps.setInt(4, amount);
+            ps.setInt(5, sizeId);
             ps.executeUpdate();
         } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -662,6 +667,19 @@ public class DAO {
             ps = conn.prepareStatement(query);
             ps.setInt(1, amount);
             ps.setInt(2, productID);
+            ps.executeUpdate();
+        } catch (Exception e) {
+        }
+    }
+    
+    public void updateQuantitySize(int sizeId, int productID, int quantity) {
+        String query = "UPDATE SizeDetail SET quantity = ? WHERE pID = ? and sizeID = ?";
+        try {
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setInt(1, quantity);
+            ps.setInt(2, productID);
+            ps.setInt(3, sizeId);
             ps.executeUpdate();
         } catch (Exception e) {
         }
@@ -1108,6 +1126,51 @@ public class DAO {
         }
         return sizes;
     }
+    
+        public SizeDetail getProductSizesByProductIDAndSizeID(int productID, int sizeId) {
+
+        String query = "SELECT sd.*, s.sizevalue\n"
+                + "FROM SizeDetail sd\n"
+                + "JOIN Size s ON sd.sizeID = s.sizeID\n"
+                + "WHERE sd.pID = ? and s.sizeID = ?";
+        try ( Connection conn = new DBContext().getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setInt(1, productID);
+             ps.setInt(2, sizeId);
+            try ( ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    int pID = rs.getInt("pID");
+                    int sizeID = rs.getInt("sizeID");
+                    int quantity = rs.getInt("quantity");
+                    int sizeValue = rs.getInt("sizevalue");
+                    SizeDetail size = new SizeDetail(sizeID, pID, quantity, sizeValue);
+                    return size;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+        
+                public Size getSizeById(int sizeId) {
+
+        String query = "SELECT *"
+                + "FROM Size s "
+                + "WHERE s.sizeID = ?";
+        try ( Connection conn = new DBContext().getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setInt(1, sizeId);
+            try ( ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                   
+                    Size size = new Size(rs.getInt(1), rs.getInt(2));
+                    return size;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
     //Sắp xếp khách hàng mới
     public List<Account> getNewCustomers() {
@@ -1537,6 +1600,82 @@ public class DAO {
             e.printStackTrace();
         }
         return list;
+    }
+    
+    public SizeDetail getSizeDetail(int sizeId, int pID) {
+        String query = "select * from SizeDetail where sizeID = ? and pID = ?";
+        DAO dao = new DAO();
+        try {
+            conn = new DBContext().getConnection(); //mo ket noi toi sql
+            ps = conn.prepareStatement(query);//nem cau lenh query sang sql
+            ps.setInt(1, sizeId);
+            ps.setInt(2, pID);
+            rs = ps.executeQuery();//chay cau lenh query, nhan ket qua tra ve
+            while (rs.next()) {
+                return new SizeDetail(rs.getInt(1), rs.getInt(2), rs.getInt(3));
+            }
+
+        } catch (Exception e) {
+        }
+        return null;
+    }
+    
+    public List<Order> getOrderHistoryByAccountID(int accID) {
+        String query = "SELECT * from [Order] where accountID = ?";
+        try {
+            List<Order> ls = new ArrayList<>();
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setInt(1, accID);
+            rs = ps.executeQuery();//chay cau lenh query, nhan ket qua tra ve
+            DAO dao = new DAO();
+            while (rs.next()) {
+                Order order = new Order();
+
+                order.setId(rs.getInt("id"));
+                order.setDate(rs.getDate("orderDate"));
+                order.setAccountID(rs.getInt("accountID"));
+                order.setAddress(rs.getString("addressReceive"));
+                order.setSdt(rs.getString("sdt"));
+                order.setName(rs.getString("name"));
+                order.setTotalPrice(rs.getInt("totalPrice"));
+                order.setStatus(rs.getString("status"));
+
+                ls.add(order);
+            }
+            return ls;
+        } catch (Exception e) {
+        }
+        return null;
+    }
+    
+    public List<OrderDetails> getOrderDetailByOrderID(int orderId) {
+        String query = "SELECT od.*, p.image, p.pName, c.cName, s.sizevalue from OrderDetails od\n"
+                + "left join Product p on od.ProductID = p.pID\n"
+                + "left join Category c on p.cID = c.cID\n"
+                + "left join Size s on od.sizeID = s.sizeID "
+                + "where OrderID = ?";
+        try {
+            List<OrderDetails> ls = new ArrayList<>();
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setInt(1, orderId);
+            rs = ps.executeQuery();//chay cau lenh query, nhan ket qua tra ve
+            DAO dao = new DAO();
+            while (rs.next()) {
+                ls.add(new OrderDetails(rs.getInt(1),
+                        rs.getInt(2),
+                        rs.getDouble(3),
+                        rs.getInt(4),
+                        rs.getString(7),
+                        rs.getString(8),
+                        rs.getString(9),
+                        rs.getInt(10)));
+            }
+            return ls;
+        } catch (Exception e) {
+        }
+        return null;
     }
 
     public static void main(String[] args) {

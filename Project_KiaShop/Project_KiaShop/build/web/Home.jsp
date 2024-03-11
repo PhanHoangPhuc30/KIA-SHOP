@@ -44,7 +44,7 @@
                 <c:forEach items="${listP}" var="o">
                     <!-- Single Catagory -->
                     <div class="single-products-catagory clearfix">
-                        <a href="ShopControl">
+                        <a href="ShopControl?showAllProducts=true">
                             <img src="${o.image}" alt="">
                             <!-- Hover Content -->
                             <div class="hover-content">

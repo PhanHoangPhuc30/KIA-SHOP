@@ -49,6 +49,11 @@
                 line-height: 50px; /* Chiều cao của ô vuông */
                 text-align: center; /* Canh giữa văn bản theo chiều ngang */
             }
+            a.active{
+                background-color: #ffc107;
+                border-color: #ffc107;
+                color: white
+            }
         </style>
         <!-- <link rel="stylesheet" href="style.css"> -->
     </head>
@@ -147,12 +152,14 @@
                                     List<SizeDetail> sizes = (List<SizeDetail>) request.getAttribute("sizes");
                                     if (sizes != null) {
                                         for (SizeDetail size : sizes) {
+                                       if(size.getQuantity() != 0) { 
                                     %>
-                                    <a href="#" class="square" data-size="${size.sizevalue}">
+                                    <a href="#" class="square" data-size="<%= size.getSizeID() %>" onclick="chooseSize(<%= size.getSizeID() %>)"/>
                                         <%= size.getSizevalue() %>
                                     </a>
                                     <% 
                                         }
+                                      }
                                     }
                                     %>
                                 </div>
@@ -165,78 +172,111 @@
 
                             <!-- Add to Cart Form -->
                             <form class="cart clearfix" method="post" action="">
-                                <a href="cart?id=${detail.id}&sizevalue=${size.getSizevalue()}&action=add"><button type="button" name="addtocart" value="${detail.id}&${size.getSizevalue()}" class="btn amado-btn">Add to cart</button></a>
+                                <input type="hidden" id="size_shoes" />
+                                 <input type="hidden" id="size_value_shoes" />
+                                 <c:if test="${detail.amount != 0}">
+                                <a href="#" onclick="addToCart(`${detail.id}`)"><button type="button" name="addtocart" value="${detail.id}&${size.getSizevalue()}" class="btn amado-btn">Add to cart</button></a>
+                                </c:if>
                             </form>
                             <form action="loadMore" method="post">
                                 <button type="submit" class="loadMore">Load More</button>
-                            </form>
+                            </form>                                   
+
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- Product Details Area End -->
-        <!-- ##### Main Content Wrapper End ##### -->
+    </div>
+    <!-- Product Details Area End -->
+    <!-- ##### Main Content Wrapper End ##### -->
 
-        <!-- ##### Newsletter Area Start ##### -->
+    <!-- ##### Newsletter Area Start ##### -->
 
-        <!-- ##### Newsletter Area End ##### -->
+    <!-- ##### Newsletter Area End ##### -->
 
-        <!-- ##### Footer Area Start ##### -->
-        <jsp:include page="common/footer.jsp"></jsp:include>
-        <!-- ##### Footer Area End ##### -->
+    <!-- ##### Footer Area Start ##### -->
+    <jsp:include page="common/footer.jsp"></jsp:include>
+    <!-- ##### Footer Area End ##### -->
 
-        <!-- ##### jQuery (Necessary for All JavaScript Plugins) ##### -->
-        <script src="js/jquery/jquery-2.2.4.min.js"></script>
-        <!-- Popper js -->
-        <script src="js/popper.min.js"></script>
-        <!-- Bootstrap js -->
-        <script src="js/bootstrap.min.js"></script>
-        <!-- Plugins js -->
-        <script src="js/plugins.js"></script>
-        <!-- Active js -->
-        <script src="js/active.js"></script>
-        <style>
+    <!-- ##### jQuery (Necessary for All JavaScript Plugins) ##### -->
+    <script src="js/jquery/jquery-2.2.4.min.js"></script>
+    <!-- Popper js -->
+    <script src="js/popper.min.js"></script>
+    <!-- Bootstrap js -->
+    <script src="js/bootstrap.min.js"></script>
+    <!-- Plugins js -->
+    <script src="js/plugins.js"></script>
+    <!-- Active js -->
+    <script src="js/active.js"></script>
+    <style>
+        .loadMore{
+            display: inline-block;
+            min-width: 160px;
+            height: 55px;
+            color: #ffffff;
+            border: none;
+            border-radius: 0;
+            padding: 0 7px;
+            font-size: 18px;
+            line-height: 56px;
+            background-color: #fbb710;
+            font-weight: 400;
+            margin-top: 10px;
+        }
+        .loadMore.active,
+        .loadMore:hover,
+        .loadMore:focus {
+            font-size: 18px;
+            color: #ffffff;
+            background-color: #131212;
+        }
+        .loadMore{
+            width: 160px;
+            display: block;
+        }
+        .loadMore{
+            width: 310px;
+            height: 80px;
+            line-height: 80px;
+        }
+        @media only screen and (min-width: 992px) and (max-width: 1199px) {
             .loadMore{
-                display: inline-block;
-                min-width: 160px;
-                height: 55px;
-                color: #ffffff;
-                border: none;
-                border-radius: 0;
-                padding: 0 7px;
-                font-size: 18px;
-                line-height: 56px;
-                background-color: #fbb710;
-                font-weight: 400;
-                margin-top: 10px;
+                width: 250px;
             }
-            .loadMore.active,
-            .loadMore:hover,
-            .loadMore:focus {
-                font-size: 18px;
-                color: #ffffff;
-                background-color: #131212;
-            }
+        }
+        @media only screen and (max-width: 767px) {
             .loadMore{
-                width: 160px;
-                display: block;
+                width: 280px;
             }
-            .loadMore{
-                width: 310px;
-                height: 80px;
-                line-height: 80px;
-            }
-            @media only screen and (min-width: 992px) and (max-width: 1199px) {
-                .loadMore{
-                    width: 250px;
+        }
+    </style>
+    <script type="text/javascript">
+        function chooseSize(size) {
+    var sizeInput = document.getElementById("size_shoes");
+    sizeInput.value = size;
+// Remove "active" class from all links
+        var allLinks = document.querySelectorAll('a[data-size]');
+        allLinks.forEach(function(link) {
+            link.classList.remove("active");
+        });
+
+        // Add "active" class to the selected link
+        var activeSize = document.querySelector('a[data-size="' + size + '"]');
+        if (activeSize) {
+            activeSize.classList.add("active");
+        }
+       
+}
+
+        function addToCart(id){
+                var size = document.getElementById("size_shoes").value;
+                if(size){
+                    window.location.href = "cart?id="+id+"&sizeId="+size+"&action=add";
+                }else{
+                    alert("Please choose size");
                 }
-            }
-            @media only screen and (max-width: 767px) {
-                .loadMore{
-                    width: 280px;
-                }
-            }
-        </style>
-    </body>
+        }
+    </script>
+</body>
 </html>

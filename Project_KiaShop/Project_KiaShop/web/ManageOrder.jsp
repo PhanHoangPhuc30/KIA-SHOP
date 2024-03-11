@@ -169,6 +169,7 @@
                             <th>Total Price</th>
                             <th>Status</th>
                             <th>Action</th>
+                            <th>Detail</th>
                         </tr>
                     </thead>
 
@@ -188,6 +189,9 @@
                                         <a href="changestatus?acceptID=${order.id}" class="active">Accept Order</a>
                                         <a href="changestatus?cancelID=${order.id}" class="delete">Cancel Order</a>
                                     </c:if>
+                                </td>
+                                <td style="text-align: center">
+                                     <a href="OrderDetailAdminControl?orderId=${order.id}"><i class="material-icons" data-toggle="tooltip" title="Detail">&#xe24c;</i>
                                 </td>
 
                             </tr>

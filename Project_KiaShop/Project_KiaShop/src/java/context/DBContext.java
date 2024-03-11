@@ -15,11 +15,11 @@ public class DBContext {
 
     /*Insert your other code right after this comment*/
  /*Change/update information of your database connection, DO NOT change name of instance variables in this class*/
-    private final String serverName = "PHUCPHAN";
-    private final String dbName = "Project_KiAShop";
+    private final String serverName = "ONEZI-ISME\\SQLExpress";
+    private final String dbName = "Project_KiAShop5";
     private final String portNumber = "1433";
     private final String userID = "sa";
-    private final String password = "Phuc300803@";
+    private final String password = "123456";
 
     public static void main(String[] args) {
         try {

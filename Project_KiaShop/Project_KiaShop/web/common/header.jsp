@@ -35,12 +35,15 @@
                 <!--<li><a href="HomeControl">Home</a></li>-->
                 <li><a href="ShopControl?showAllProducts=true">Shop</a></li>
                     <c:if test="${sessionScope.acc.role == 1}">
-                    <li><a href="ManagerControl"> Manager Product</a></li>
-                    <li><a href="ManagerCustomerControl"> Manager Customer</a></li>
-                    <li><a href="ManageOrderControl"> Manager Order</a></li>
+                    <li><a href="ManagerControl"> Manage Product</a></li>
+                    <li><a href="ManagerCustomerControl"> Manage Customer</a></li>
+                    <li><a href="ManageOrderControl"> Manage Order</a></li>
                     </c:if>
                 <!--<li><a href="ProductDetail.jsp">Product</a></li>-->
                 <li><a href="cart">Cart</a></li>
+                <c:if test="${sessionScope.acc != null}">
+                    <li><a href="OrderHistoryControl">Order History</a></li>
+                    </c:if>
                 <!--<li><a href="CheckOut.jsp">Checkout</a></li>-->
                 <c:if test="${sessionScope.acc == null}">
                     <li><a href="Login.jsp">Checkout</a></li>

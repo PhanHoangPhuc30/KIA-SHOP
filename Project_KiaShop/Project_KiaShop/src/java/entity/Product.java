@@ -26,6 +26,8 @@ public class Product {
     private int amount; //số lượng
 
     private int numberInCart;
+    private int sizeIdInCart;
+    private Size sizeInCart;
 
     public Product() {
     }
@@ -57,6 +59,53 @@ public class Product {
         this.amount = amount;
         this.numberInCart = numberInCart;
         this.isDeleted = isDeleted;
+    }
+    
+        public Product(int id, String name, String image, double price, String title, String description, int cateID, List<SubImage> subImage, List<SizeDetail> sizedetail, int amount, int numberInCart, int isDeleted , int sizeIdInCart) {
+        this.id = id;
+        this.name = name;
+        this.image = image;
+        this.price = price;
+        this.title = title;
+        this.description = description;
+        this.cateID = cateID;
+        this.subImage = subImage;
+        this.sizedetail = sizedetail;
+        this.amount = amount;
+        this.numberInCart = numberInCart;
+        this.isDeleted = isDeleted;
+        this.sizeIdInCart = sizeIdInCart;
+    }
+    
+    public Product(int id, String name, String image, double price, String title, String description, int cateID, List<SubImage> subImage, List<SizeDetail> sizedetail, int amount, int numberInCart, int isDeleted , Size size) {
+        this.id = id;
+        this.name = name;
+        this.image = image;
+        this.price = price;
+        this.title = title;
+        this.description = description;
+        this.cateID = cateID;
+        this.subImage = subImage;
+        this.sizedetail = sizedetail;
+        this.amount = amount;
+        this.numberInCart = numberInCart;
+        this.isDeleted = isDeleted;
+        this.sizeInCart = size;
+    }
+    
+        public Product(int id, String name, String image, double price, String title, String description, int cateID, List<SubImage> subImage, List<SizeDetail> sizedetail, int amount, int isDeleted , Size size) {
+        this.id = id;
+        this.name = name;
+        this.image = image;
+        this.price = price;
+        this.title = title;
+        this.description = description;
+        this.cateID = cateID;
+        this.subImage = subImage;
+        this.sizedetail = sizedetail;
+        this.amount = amount;
+        this.isDeleted = isDeleted;
+        this.sizeInCart = size;
     }
 
     public int getNumberInCart() {
@@ -153,6 +202,22 @@ public class Product {
 
     public void setSizedetail(List<SizeDetail> sizedetail) {
         this.sizedetail = sizedetail;
+    }
+
+    public int getSizeIdInCart() {
+        return sizeIdInCart;
+    }
+
+    public void setSizeIdInCart(int sizeIdInCart) {
+        this.sizeIdInCart = sizeIdInCart;
+    }
+
+    public Size getSizeInCart() {
+        return sizeInCart;
+    }
+
+    public void setSizeInCart(Size sizeInCart) {
+        this.sizeInCart = sizeInCart;
     }
 
     @Override

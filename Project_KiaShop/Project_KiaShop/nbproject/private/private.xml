@@ -10,12 +10,8 @@
             <file>file:/D:/Documents/NetBeansProjects/Project_KiaShop/src/java/context/DBContext.java</file>
         </group>
         <group>
-            <file>file:/C:/Users/MSI%20GTX/OneDrive/Máy%20tính/HỌC%20TẬP/Project_KiaShop/Project_KiaShop/Project_KiaShop/src/java/control/ProfileControl.java</file>
-            <file>file:/C:/Users/MSI%20GTX/OneDrive/Máy%20tính/HỌC%20TẬP/Project_KiaShop/Project_KiaShop/Project_KiaShop/src/java/control/UpdateProductControl.java</file>
-            <file>file:/C:/Users/MSI%20GTX/OneDrive/Máy%20tính/HỌC%20TẬP/Project_KiaShop/Project_KiaShop/Project_KiaShop/src/java/entity/Account.java</file>
-            <file>file:/C:/Users/MSI%20GTX/OneDrive/Máy%20tính/HỌC%20TẬP/Project_KiaShop/Project_KiaShop/Project_KiaShop/src/java/dao/DAO.java</file>
-            <file>file:/C:/Users/MSI%20GTX/OneDrive/Máy%20tính/HỌC%20TẬP/Project_KiaShop/Project_KiaShop/Project_KiaShop/src/java/control/SignUpControl.java</file>
-            <file>file:/C:/Users/MSI%20GTX/OneDrive/Máy%20tính/HỌC%20TẬP/Project_KiaShop/Project_KiaShop/Project_KiaShop/src/java/control/ChangePasswordControl.java</file>
+            <file>file:/D:/Studies/FPT/SP2024/SWP391/ProjectPhase4/Project_KiaShop-10-3/Project_KiaShop-9-3/Project_KiaShop/Project_KiaShop/Project_KiaShop/src/java/dao/DAO.java</file>
+            <file>file:/D:/Studies/FPT/SP2024/SWP391/ProjectPhase4/Project_KiaShop-10-3/Project_KiaShop-9-3/Project_KiaShop/Project_KiaShop/Project_KiaShop/src/java/control/OrderDetailAdminControl.java</file>
         </group>
     </open-files>
 </project-private>

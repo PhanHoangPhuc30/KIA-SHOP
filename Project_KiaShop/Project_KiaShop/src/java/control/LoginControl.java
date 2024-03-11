@@ -47,7 +47,9 @@ public class LoginControl extends HttpServlet {
             HttpSession session = request.getSession();
             session.setAttribute("acc", a);
             dao.updateViewed();
+  
         }
+
     }
 
     /**

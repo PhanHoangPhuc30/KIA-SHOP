@@ -7,6 +7,7 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@page import="entity.Account" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -166,6 +167,22 @@
 
 
         <div class="amado_product_area section-padding-100">
+            <%
+                                                  Account acc = (Account) session.getAttribute("acc");
+                                                  String email = "";
+                                                  if (acc != null) {
+                                                  email = acc.getEmail();
+                                                                   }
+            %>
+
+            <%-- Hiển thị tên người dùng nếu đã đăng nhập --%>
+            <div class="username" style="margin-left: 65%">
+                <% if (!email.isEmpty()) { %>
+                <p>Xin chào, <%= email %>!</p>
+                <% } else { %>
+                <p>Vui lòng đăng nhập để truy cập trang này.</p>
+                <% } %>
+            </div>
             <div class="container-fluid">
 
                 <div class="row">
@@ -219,7 +236,9 @@
                                         <button type="submit" class="btn btn-primary">Sort</button>
                                     </form>
                                 </div>
+
                             </div>
+
                         </div>
                     </div>
                 </div>
@@ -257,7 +276,7 @@
                                         </div>
                                         <div class="cart">
                                             <c:if test="${o.amount != 0}">
-                                                <a href="cart?id=${o.id}&action=add" data-toggle="tooltip" data-placement="left" title="Add to Cart">
+                                                <a href="productDetail?productID=${o.id}"" data-toggle="tooltip" data-placement="left" title="Add to Cart">
                                                     <img src="img/core-img/cart.png" alt="">
                                                 </a>
                                                 <a href="Shop.jsp" style='font-size:16px;' title="Add to favourite">&#129505;</a>

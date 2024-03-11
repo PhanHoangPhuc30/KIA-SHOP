@@ -43,6 +43,7 @@ public class ShopControl extends HttpServlet {
             String showAllProductsParam = request.getParameter("showAllProducts");
             boolean showAllProducts = Boolean.parseBoolean(showAllProductsParam);
             // Lưu giữ giá trị cID trước đó nếu showAllProducts là true
+            currentCID = (currentCID == null || currentCID.equals("")) ? listC.get(0).getId() + "" : Integer.parseInt(currentCID) + "";
             if (showAllProducts) {
                 String previousCID = (String) request.getSession().getAttribute("previousCID");
             }
@@ -53,7 +54,6 @@ public class ShopControl extends HttpServlet {
             request.setAttribute("cID", currentCID);
 
             int pageIndex = (request.getParameter("pageIndex") != null) ? Integer.parseInt(request.getParameter("pageIndex")) : 1;
-
             if (showAllProducts) {
                 List<Product> allProducts = dao.getAllProduct();
                 int numberProductPerPage = (request.getParameter("numberProductPerPage") != null) ? Integer.parseInt(request.getParameter("numberProductPerPage")) : 10;
@@ -87,6 +87,52 @@ public class ShopControl extends HttpServlet {
             e.printStackTrace();
             request.getRequestDispatcher("Shop.jsp").forward(request, response);
         }
+
+//        response.setContentType("text/html;charset=UTF-8");
+//        try ( PrintWriter out = response.getWriter()) {
+//            List<Category> lsNewsType = new DAO().getAllCategory();
+//            String txtSearch = request.getParameter("txtSearch");
+//            String cID = request.getParameter("cID");
+//            String sort = request.getParameter("sort");
+//            sort = (sort == null || sort.equals("")) ? "asc" : sort;
+//            cID = (cID == null || cID.equals("")) ? lsNewsType.get(0).getId() + "" : Integer.parseInt(cID) + "";
+//            int pageSize = getPageSize(6, new DAO().search(txtSearch, cID).size());
+//            String index = request.getParameter("pageIndex");
+//            int pageIndex = 0;
+//            if (index == null) {
+//                pageIndex = 1;
+//            } else {
+//                pageIndex = Integer.parseInt(index);
+//            }
+//
+//            List<Product> ls = new DAO().searchWithPaging(txtSearch, pageIndex, 6, cID, sort);
+//
+//            request.setAttribute("totalPage", pageSize);
+//            request.setAttribute("numberProduct", 6);
+//            request.setAttribute("pageIndex", pageIndex);
+//            request.setAttribute("searchValue", txtSearch);
+//            request.setAttribute("cID", cID);
+//            request.setAttribute("listP", ls);
+//            request.setAttribute("sort", sort);
+//
+//            request.setAttribute("listC", lsNewsType);
+//
+//            request.setAttribute("tag", (cID == null || cID.equals("")) ? lsNewsType.get(0).getId() : Integer.parseInt(cID));
+//
+//            request.getRequestDispatcher("Shop.jsp").forward(request, response);
+//        } catch (Exception e) {
+//            request.getRequestDispatcher("Shop.jsp").forward(request, response);
+//        }
+//    }
+//
+//    public int getPageSize(int numberProduct, int allProduct) {
+//        int pageSize = allProduct / numberProduct;
+//        if (allProduct % numberProduct != 0) {
+//            pageSize = (allProduct / numberProduct) + 1;
+//        }
+//        return pageSize;
+//
+//    }
     }
 
 // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

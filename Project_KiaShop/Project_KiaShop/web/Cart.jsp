@@ -53,6 +53,7 @@
                                         <tr>
                                             <th></th>
                                             <th>Name</th>
+                                            <th>Size</th>
                                             <th>Price</th>
                                             <th>Quantity</th>
                                         </tr>
@@ -66,14 +67,17 @@
                                             <td class="cart_product_desc">
                                                 <h5>${o.name}</h5>
                                             </td>
+                                             <td class="cart_product_desc">
+                                                <h5>${o.sizeInCart.sizevalue}</h5>
+                                            </td>
                                             <td class="price">
                                                 <span>$${o.price}</span>
                                             </td>
                                             <td class="qty">
-                                                <a href="cart?id=${o.id}&action=minus"><button class="btnSub">-</button></a> 
+                                                <a href="cart?id=${o.id}&sizeId=${o.sizeInCart.getSizeID()}&action=minus"><button class="btnSub">-</button></a> 
                                                 <strong>${o.numberInCart}</strong>
-                                                <a href="cart?id=${o.id}&action=add"><button class="btnAdd">+</button></a>
-                                                <a href="cart?id=${o.id}&action=delete" style="margin-left: 100px;"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
+                                                <a href="cart?id=${o.id}&sizeId=${o.sizeInCart.getSizeID()}&action=add"><button class="btnAdd">+</button></a>
+                                                <a href="cart?id=${o.id}&sizeId=${o.sizeInCart.getSizeID()}&action=delete" style="margin-left: 100px;"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
                                                     <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
                                                     </svg></a>
                                             </td>
@@ -115,7 +119,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    
     <!-- ##### Main Content Wrapper End ##### -->
 
     <!-- ##### Newsletter Area Start ##### -->

@@ -8,6 +8,7 @@ package control;
 import dao.DAO;
 import entity.Cart;
 import entity.Product;
+import entity.Size;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,8 +44,10 @@ public class CartControl extends HttpServlet {
         if (session.getAttribute("acc") != null) {
             String id = request.getParameter("id");
             String action = request.getParameter("action");
-            String sizeid = request.getParameter("sizeID");
+            String sizeid = request.getParameter("sizeId");
+            
             if (!(id == null && action == null)) {
+                Size s = dao.getSizeById(Integer.parseInt(sizeid));
                 if (action != null && action.equalsIgnoreCase("add")) {
                     if (session.getAttribute("cart") == null) {
                         List<Product> lst = new ArrayList<>();
@@ -55,7 +58,7 @@ public class CartControl extends HttpServlet {
 
                     c.add(new Product(p.getId(), p.getName(), p.getImage(), p.getPrice(),
                             p.getTitle(), p.getDescription(), p.getCateID(), p.getSubImage(), p.getSizedetail(),
-                            p.getAmount(), 1, p.getIsDeleted()));
+                            p.getAmount(), 1, p.getIsDeleted(),s), Integer.parseInt(sizeid));
                     session.setAttribute("cart", c);
 
                 }
@@ -64,11 +67,11 @@ public class CartControl extends HttpServlet {
                     Cart c = (Cart) session.getAttribute("cart");
                     c.minus(new Product(p.getId(), p.getName(), p.getImage(), p.getPrice(),
                             p.getTitle(), p.getDescription(), p.getCateID(), p.getSubImage(), p.getSizedetail(),
-                            p.getAmount(), p.getIsDeleted()));
+                            p.getAmount(), p.getIsDeleted(), s), Integer.parseInt(sizeid));
                     session.setAttribute("cart", c);
                 } else if (action != null && action.equalsIgnoreCase("delete")) {
                     Cart c = (Cart) session.getAttribute("cart");
-                    c.remove(Integer.parseInt(id));
+                    c.remove(Integer.parseInt(id), Integer.parseInt(sizeid));
                     session.setAttribute("cart", c);
                 }
             }

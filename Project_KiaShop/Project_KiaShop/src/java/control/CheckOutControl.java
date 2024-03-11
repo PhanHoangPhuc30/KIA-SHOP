@@ -9,9 +9,12 @@ import dao.DAO;
 import entity.Account;
 import entity.Cart;
 import entity.Product;
+import entity.SizeDetail;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -65,17 +68,19 @@ public class CheckOutControl extends HttpServlet {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             java.sql.Date dateInsert = java.sql.Date.valueOf(dateFormat.format(date));
 
-            dao.insertOrder(dateInsert + "", a.getId(), address, phone, firstname + " " + lastname, totalPrice);
+            dao.insertOrder(dateInsert + "", a.getId(), address, phone, firstname + " " + lastname, totalPrice, "Waiting");
 
             int orderID = dao.getOrderID();
 
             for (Product product : c.getItems()) {
-                dao.insertOrderDetails(orderID, product.getId(), product.getPrice(), product.getNumberInCart());
+                dao.insertOrderDetails(orderID, product.getId(), product.getPrice(), product.getNumberInCart(), product.getSizeInCart().getSizeID());
             }
 
             for (Product product : c.getItems()) {
                 int reduceAmount = product.getAmount() - product.getNumberInCart();
                 dao.updateAmounProduct(reduceAmount, product.getId());
+                SizeDetail sd = dao.getSizeDetail(product.getSizeInCart().getSizeID(), product.getId());
+                dao.updateQuantitySize(product.getSizeInCart().getSizeID(), product.getId(), sd.getQuantity() - product.getNumberInCart());
             }
 
             session.removeAttribute("cart");
@@ -88,6 +93,7 @@ public class CheckOutControl extends HttpServlet {
 
     }
 
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *

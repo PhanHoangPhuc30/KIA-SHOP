@@ -5,6 +5,7 @@
  */
 package entity;
 
+import dao.DAO;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -103,10 +104,12 @@ public class Cart {
         this.items = items;
     }
 
-    public void add(Product ci) {
+    public void add(Product ci, int sizeId) {
         for (Product product : items) {
-            if (ci.getId() == product.getId()) {
-                if ((product.getNumberInCart() + 1) <= product.getAmount()) {
+            if (ci.getId() == product.getId() && sizeId == product.getSizeInCart().getSizeID()) {
+                DAO dao = new DAO();
+                SizeDetail size = dao.getProductSizesByProductIDAndSizeID(product.getId(), sizeId);
+                if ((product.getNumberInCart() + 1) <= size.getQuantity()) {
                     product.setNumberInCart(product.getNumberInCart() + 1);
                 }
                 return;
@@ -115,9 +118,9 @@ public class Cart {
         items.add(ci);
     }
 
-    public void minus(Product ci) {
+    public void minus(Product ci, int sizeId) {
         for (Product product : items) {
-            if (ci.getId() == product.getId()) {
+            if (ci.getId() == product.getId() && sizeId == product.getSizeInCart().getSizeID()) {
                 if (product.getNumberInCart() > 1) {
                     product.setNumberInCart(product.getNumberInCart() - 1);
                 } else {
@@ -128,9 +131,9 @@ public class Cart {
         }
     }
 
-    public void remove(int id) {
+    public void remove(int id, int sizeId) {
         for (Product product : items) {
-            if (product.getId() == id) {
+            if (product.getId() == id && sizeId == product.getSizeInCart().getSizeID()) {
                 items.remove(product);
                 return;
             }
